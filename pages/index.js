@@ -11,7 +11,9 @@ var app = new Vue({
             { text: 'Average Stats', value: 'avg_stat' },
             { text: 'Total Stats', value: 'total_stat' }
         ],
-        "pageRows": [50, 100, 200, { text: "All", value: -1 }],
+        "loading": "primary",
+        "search": '',
+        "pageRows": [25, 50, 100, { text: "All", value: -1 }],
         characters: []
     },
     created: function () {
@@ -26,6 +28,7 @@ var app = new Vue({
                     data[x].avg_stat = (data[x].max_pow + data[x].max_tec + data[x].max_vit + data[x].max_spd) / 4;
                 }
                 this.characters = data;
+                this.loading = false;
             });
         }
     }

@@ -15,7 +15,16 @@
             <v-container fluid grid-list-sm>
                 <v-layout row wrap>
                     <v-flex d-flex>
-                        <v-data-table v-bind:headers="characterHeaders" :items="characters" :rows-per-page-items='pageRows' loading>
+                        <v-card-title>
+                            <v-spacer></v-spacer>
+                            <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
+                        </v-card-title>
+                    </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                    <v-flex d-flex>
+                        <v-data-table v-bind:headers="characterHeaders" :loading="loading" :search="search" :items="characters" :rows-per-page-items='pageRows'
+                            loading>
                             <template slot="items" scope="props">
                                 <td>{{ props.item.name }}</td>
                                 <td class="text-xs-right">{{ props.item.element }}</td>
