@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.15.7/vuetify.css" rel="stylesheet">
+</head>
+
+<body>
+    <v-app id="app">
+        <v-toolbar dark class="primary">
+            <v-toolbar-title class="white--text">SSData</v-toolbar-title>
+        </v-toolbar>
+        <main>
+            <v-container fluid grid-list-sm>
+                <v-layout row wrap>
+                    <v-flex d-flex>
+                        <v-data-table v-bind:headers="characterHeaders" :items="characters" :rows-per-page-items='pageRows' loading>
+                            <template slot="items" scope="props">
+                                <td>{{ props.item.name }}</td>
+                                <td class="text-xs-right">{{ props.item.element }}</td>
+                                <td class="text-xs-right">{{ props.item.max_pow }}</td>
+                                <td class="text-xs-right">{{ props.item.max_tec }}</td>
+                                <td class="text-xs-right">{{ props.item.max_vit }}</td>
+                                <td class="text-xs-right">{{ props.item.max_spd }}</td>
+                                <td class="text-xs-right">{{ props.item.avg_stat }}</td>
+                                <td class="text-xs-right">{{ props.item.total_stat }}</td>
+                            </template>
+                        </v-data-table>
+                    </v-flex>
+                </v-layout>
+            </v-container>
+        </main>
+    </v-app>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.15.7/vuetify.js"></script>
+    <script src="index.js"></script>
+</body>
+
+</html>
