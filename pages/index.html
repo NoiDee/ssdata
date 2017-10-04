@@ -4,41 +4,90 @@
 <head>
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
     <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.15.7/vuetify.css" rel="stylesheet">
+    <title>SSData</title>
 </head>
 
 <body>
     <v-app id="app">
-        <v-toolbar dark class="primary">
+        <v-toolbar dark class="primary toolbar--fixed">
             <v-toolbar-title class="white--text">SSData</v-toolbar-title>
         </v-toolbar>
         <main>
-            <v-container fluid grid-list-sm>
-                <v-layout row wrap>
-                    <v-flex d-flex>
+            <v-layout fluid>
+                <v-flex>
+                    <v-card>
                         <v-card-title>
-                            <v-spacer></v-spacer>
-                            <v-text-field append-icon="search" label="Search" single-line hide-details v-model="search"></v-text-field>
+                            <v-container fluid>
+                                <!-- element filter -->
+                                <v-layout row wrap>
+                                    <v-flex xs3 md2>
+                                        <v-subheader>Element</v-subheader>
+                                    </v-flex>
+                                    <v-flex xs9 md10>
+                                        <v-layout row wrap>
+                                            <v-flex xs2 md 2>
+                                                <v-checkbox label="Ardor" color="red" v-model="selectedElements" value="Ardor" hide-details></v-checkbox>
+                                            </v-flex>
+                                            <v-flex xs2 md 2>
+                                                <v-checkbox label="Whirlwind" color="green" v-model="selectedElements" value="Whirlwind" hide-details></v-checkbox>
+                                            </v-flex>
+                                            <v-flex xs2 md 2>
+                                                <v-checkbox label="Thunder" color="blue" v-model="selectedElements" value="Thunder" hide-details></v-checkbox>
+                                            </v-flex>
+                                            <v-flex xs2 md 2>
+                                                <v-checkbox label="Light" color="yellow" v-model="selectedElements" value="Light" hide-details></v-checkbox>
+                                            </v-flex>
+                                            <v-flex xs2 md 2>
+                                                <v-checkbox label="Dark" color="indigo" v-model="selectedElements" value="Dark" hide-details></v-checkbox>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-flex>
+                                </v-layout>
+                                <!-- element filter end -->
+                                <!-- rarity filter -->
+                                <v-layout>
+                                    <v-flex xs3 md2>
+                                        <v-subheader>Rarity</v-subheader>
+                                    </v-flex>
+                                    <v-flex xs9 md4>
+                                        <v-select v-bind:items="rarities" v-model="selectedRarity" multiple chips></v-select>
+                                    </v-flex>
+                                </v-layout>
+                                <!-- rarity filter end -->
+                                <!-- search filter -->
+                                <v-layout>
+                                    <v-flex xs3 md2>
+                                        <v-subheader>Search</v-subheader>
+                                    </v-flex>
+                                    <v-flex xs9 md4>
+                                        <v-text-field append-icon="search" label="Enter text" single-line hide-details v-model="search"></v-text-field>
+                                    </v-flex>
+                                </v-layout>
+                                <!-- search filter end -->
+
+                            </v-container>
                         </v-card-title>
-                    </v-flex>
-                </v-layout>
-                <v-layout row wrap>
-                    <v-flex d-flex>
-                        <v-data-table v-bind:headers="characterHeaders" :loading="loading" :search="search" :items="characters" :rows-per-page-items='pageRows'
-                            loading>
-                            <template slot="items" scope="props">
-                                <td>{{ props.item.name }}</td>
-                                <td class="text-xs-right">{{ props.item.element }}</td>
-                                <td class="text-xs-right">{{ props.item.max_pow }}</td>
-                                <td class="text-xs-right">{{ props.item.max_tec }}</td>
-                                <td class="text-xs-right">{{ props.item.max_vit }}</td>
-                                <td class="text-xs-right">{{ props.item.max_spd }}</td>
-                                <td class="text-xs-right">{{ props.item.avg_stat }}</td>
-                                <td class="text-xs-right">{{ props.item.total_stat }}</td>
-                            </template>
-                        </v-data-table>
-                    </v-flex>
-                </v-layout>
-            </v-container>
+                        <v-card-text>
+                            <!-- data table -->
+                            <v-data-table v-bind:headers="characterHeaders" :loading="loading" :search="search" :items="characters" :rows-per-page-items='pageRows'
+                                loading>
+                                <template slot="items" scope="props">
+                                    <td>{{ props.item.name }}</td>
+                                    <td class="text-xs-right">{{ props.item.rarity }}</td>
+                                    <td class="text-xs-right">{{ props.item.element }}</td>
+                                    <td class="text-xs-right">{{ props.item.max_pow }}</td>
+                                    <td class="text-xs-right">{{ props.item.max_tec }}</td>
+                                    <td class="text-xs-right">{{ props.item.max_vit }}</td>
+                                    <td class="text-xs-right">{{ props.item.max_spd }}</td>
+                                    <td class="text-xs-right">{{ props.item.avg_stat }}</td>
+                                    <td class="text-xs-right">{{ props.item.total_stat }}</td>
+                                </template>
+                            </v-data-table>
+                            <!-- data table end -->
+                        </v-card-text>
+                    </v-card>
+                </v-flex>
+            </v-layout>
         </main>
     </v-app>
 
