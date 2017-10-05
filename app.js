@@ -4,7 +4,7 @@ var bodyParser = require("body-parser");
 var charactersData = require("./data/characters.json")
 
 var app = express();
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
 //set body parser
 app.use(bodyParser.json());
