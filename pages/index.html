@@ -168,7 +168,7 @@
 
                             <!-- data table -->
                             <v-card-text>
-                                <v-data-table :headers="characterHeaders" loading="true" :search="search" :items="charactersTable" :rows-per-page-items='pageRows'>
+                                <v-data-table :headers="characterHeaders" :loading="loadingData" :search="search" :items="charactersTable" :rows-per-page-items='pageRows'>
                                     <template slot="items" scope="props">
                                         <td>{{ props.item.name }}</td>
                                         <td class="text-xs-right">{{ props.item.rarity }}</td>

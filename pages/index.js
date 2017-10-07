@@ -24,7 +24,7 @@ var app = new Vue({
             { text: 'Max Speed', value: 'max_spd' },
             { text: 'Total Stats', value: 'total_stat' }
         ],
-        loading: true,
+        loadingData: true,
         search: '',
         pageRows: [15, 30, 50]
     },
@@ -68,7 +68,7 @@ var app = new Vue({
                         });
                     }
                 };
-                this.loading = false;
+                this.loadingData = false;
                 // this.characters = data;
             });
         }
