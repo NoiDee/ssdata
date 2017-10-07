@@ -4,7 +4,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.1/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.2/vuetify.min.css" rel="stylesheet">
     <title>SSData</title>
     <style>
         main {
@@ -30,7 +30,7 @@
                             <v-card-text>
                                 <v-layout row wrap>
                                     <v-flex xs10 sm10 md10>
-                                        <v-slider label="Level" :max="stats.spu.max" v-model="stats.spu.value" :color="stats.spu.color"></v-slider>
+                                        <v-slider label="Level" :max="stats.spu.max" v-model="stats.spu.value" :color="stats.spu.color" step="1" snap></v-slider>
                                     </v-flex>
                                     <v-flex xs2 sm2 md2>
                                         <v-text-field v-model="stats.spu.value" type="number"></v-text-field>
@@ -50,7 +50,7 @@
                             <v-card-text>
                                 <v-layout row wrap>
                                     <v-flex xs10 sm10 md10>
-                                        <v-slider label="Level" :max="stats.bs.max" v-model="stats.bs.value" :color="stats.bs.color"></v-slider>
+                                        <v-slider label="Level" :max="stats.bs.max" v-model="stats.bs.value" :color="stats.bs.color" step="1" snap></v-slider>
                                     </v-flex>
                                     <v-flex xs2 sm2 md2>
                                         <v-text-field v-model="stats.bs.value" type="number"></v-text-field>
@@ -70,7 +70,7 @@
                             <v-card-text>
                                 <v-layout row wrap>
                                     <v-flex xs10 sm10 md10>
-                                        <v-slider label="Level" :max="stats.apu.max" v-model="stats.apu.value" :color="stats.apu.color"></v-slider>
+                                        <v-slider label="Level" :max="stats.apu.max" v-model="stats.apu.value" :color="stats.apu.color" step="1" snap></v-slider>
                                     </v-flex>
                                     <v-flex xs2 sm2 md2>
                                         <v-text-field v-model="stats.apu.value" type="number"></v-text-field>
@@ -208,7 +208,7 @@
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.1/vuetify.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.2/vuetify.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-scrollto@2.7.8/vue-scrollto.min.js"></script>
     <script src="index.js"></script>
 </body>
