@@ -1,37 +1,61 @@
 var app = new Vue({
     el: "#app",
     data: {
-        bs: 40,
+        characters: [],
         stats: {
             bs: { value: 40, max: 40, color: 'light-green' },
             spu: { value: 5, max: 5, color: 'deep-orange' },
             apu: { value: 0, max: 30, color: 'cyan' }
         },
-        selectedRarity: [],
-        rarities: ['1', '2', '3', '4', '5', '6'],
-        selectedRole: [],
-        selectedElements: [],
-        characters: [],
-        charactersTable: [],
-        characterHeaders: [
-            { text: 'Name', align: 'left', value: 'name' },
-            { text: 'Rarity', value: 'rarity' },
-            { text: 'Role', value: 'role' },
-            { text: 'Element', value: 'element' },
-            { text: 'Max Power', value: 'max_pow' },
-            { text: 'Max Technique', value: 'max_tec' },
-            { text: 'Max Vitality', value: 'max_vit' },
-            { text: 'Max Speed', value: 'max_spd' },
-            { text: 'Total Stats', value: 'total_stat' }
-        ],
-        loadingData: true,
-        search: '',
-        pageRows: [15, 30, 50]
+        selected: {
+            rarity: [],
+            role: [],
+            element: []
+        },
+        dataTable: {
+            search: '',
+            isLoading: true,
+            pageRows: [15, 30, 50],
+            filter: function (val, search) {
+                return val !== null &&
+                    ['undefined', 'boolean'].indexOf(typeof val) === -1 &&
+                    val.toString().toLowerCase().indexOf(search) !== -1
+            },
+            headers: [
+                { text: 'Name', align: 'left', value: 'name' },
+                { text: 'Rarity', value: 'rarity' },
+                { text: 'Role', value: 'role' },
+                { text: 'Element', value: 'element' },
+                { text: 'Max Power', value: 'max_pow' },
+                { text: 'Max Technique', value: 'max_tec' },
+                { text: 'Max Vitality', value: 'max_vit' },
+                { text: 'Max Speed', value: 'max_spd' },
+                { text: 'Total Stats', value: 'total_stat' }
+            ],
+            customFilter: function (items, search, filter) {
+                search = search.toString().toLowerCase();
+                return items.filter(function (i) {
+                    var data = app.selected;
+                    if (filter(i.name, search) && app.filterData(data.rarity, i.rarity) && app.filterData(data.role, i.role) && app.filterData(data.element, i.element))
+                        return true;
+                    else
+                        return false;
+                });
+            }
+        },
+
     },
     mounted: function () {
         this.getCharData();
     },
     methods: {
+        filterData: function (arr, obj) {
+            if (arr.length >= 1) {
+                if (!arr.includes(obj.toString()))
+                    return false;
+            }
+            return true;
+        },
         isPlayer: function (character) {
             return (character === "Player") ? true : false;
         },
@@ -45,7 +69,7 @@ var app = new Vue({
         getCharData: function () {
             axios.get('/api/characters/').then(response => {
                 var data = response.data;
-                charactersTable = [];
+                characters = [];
                 for (var x = 0; x < data.length; x++) {
                     if (this.isPlayer(data[x].category)) {
                         var base = data[x].id.toString().substring(0, 1);
@@ -55,7 +79,7 @@ var app = new Vue({
                         else if (base == "2") {
                             data[x].name += " (E)";
                         }
-                        this.charactersTable.push({
+                        this.characters.push({
                             name: data[x].name,
                             rarity: data[x].rarity,
                             role: data[x].role,
@@ -68,21 +92,8 @@ var app = new Vue({
                         });
                     }
                 };
-                this.loadingData = false;
-                // this.characters = data;
+                this.dataTable.isLoading = false;
             });
         }
     }
 });
-
-VueScrollTo.setDefaults({
-    container: "body",
-    duration: 500,
-    easing: "ease",
-    offset: 0,
-    cancelable: true,
-    onDone: false,
-    onCancel: false,
-    x: false,
-    y: true
-})
