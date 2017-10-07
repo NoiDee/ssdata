@@ -21,8 +21,8 @@
         <main>
             <v-container fluid grid-list-xs fluid grid-list-sm grid-list-md>
                 <v-layout row wrap>
+                    <!-- spu  -->
                     <v-flex xs12 sm6 md4>
-                        <!-- spu  -->
                         <v-card>
                             <v-card-title>
                                 <h5>Superb Power-up</h5>
@@ -38,10 +38,11 @@
                                 </v-layout>
                             </v-card-text>
                         </v-card>
-                        <!-- spu end -->
                     </v-flex>
+                    <!-- spu end -->
+
+                    <!-- bonus stats -->
                     <v-flex xs12 sm6 md4>
-                        <!-- bonus stats -->
                         <v-card>
                             <v-card-title>
                                 <h5>Bonus Stats</h5>
@@ -57,10 +58,11 @@
                                 </v-layout>
                             </v-card-text>
                         </v-card>
-                        <!-- bonus stats end -->
                     </v-flex>
+                    <!-- bonus stats end -->
+
+                    <!-- apu -->
                     <v-flex xs12 sm6 md4>
-                        <!-- apu -->
                         <v-card>
                             <v-card-title>
                                 <h5>Amplified Power-up</h5>
@@ -76,69 +78,74 @@
                                 </v-layout>
                             </v-card-text>
                         </v-card>
-                        <!-- apu end -->
                     </v-flex>
-                    <v-flex xs12 sm6 md5>
-                        <!-- element filter -->
-                        <v-card>
-                            <v-card-title>
-                                <h5>Element</h5>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex>
-                                        <v-checkbox label="Ardor" color="red" v-model="selectedElements" value="Ardor"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-checkbox label="Whirlwind" color="green" v-model="selectedElements" value="Whirlwind"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-checkbox label="Thunder" color="blue" v-model="selectedElements" value="Thunder"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-checkbox label="Light" color="yellow" v-model="selectedElements" value="Light"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex>
-                                        <v-checkbox label="Dark" color="indigo" v-model="selectedElements" value="Dark"></v-checkbox>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                        <!-- element filter end -->
-                    </v-flex>
-                    <v-flex xs12 sm12 md7>
-                        <!-- role filter -->
+                    <!-- apu end -->
+                </v-layout>
+
+                <v-layout row wrap>
+                    <!-- role filter -->
+                    <v-flex xs12 sm6 md4>
                         <v-card>
                             <v-card-title>
                                 <h5>Role</h5>
                             </v-card-title>
                             <v-card-text>
                                 <v-layout row wrap>
-                                    <v-flex>
+                                    <v-flex xs6 sm6>
                                         <v-checkbox label="Leader" color="red" v-model="selectedRole" value="Leader"></v-checkbox>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex xs6 sm6>
                                         <v-checkbox label="Goalkeeper" color="blue" v-model="selectedRole" value="Goalkeeper"></v-checkbox>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex xs6 sm6>
                                         <v-checkbox label="Defender" color="cyan" v-model="selectedRole" value="Defender"></v-checkbox>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex xs6 sm6>
                                         <v-checkbox label="Attacker" color="yellow" v-model="selectedRole" value="Attacker"></v-checkbox>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex xs6 sm6>
                                         <v-checkbox label="Assist" color="green" v-model="selectedRole" value="Assist"></v-checkbox>
                                     </v-flex>
-                                    <v-flex>
+                                    <v-flex xs6 sm6>
                                         <v-checkbox label="Striker" color="indigo" v-model="selectedRole" value="Striker"></v-checkbox>
                                     </v-flex>
                                 </v-layout>
                             </v-card-text>
                         </v-card>
-                        <!-- role filter end -->
                     </v-flex>
+                    <!-- role filter end -->
+
+                    <!-- element filter -->
                     <v-flex xs12 sm6 md4>
-                        <!-- rarity filter -->
+                        <v-card>
+                            <v-card-title>
+                                <h5>Element</h5>
+                            </v-card-title>
+                            <v-card-text>
+                                <v-layout row wrap>
+                                    <v-flex xs6 sm6>
+                                        <v-checkbox label="Ardor" color="red" v-model="selectedElements" value="Ardor"></v-checkbox>
+                                    </v-flex>
+                                    <v-flex xs6 sm6>
+                                        <v-checkbox label="Whirlwind" color="green" v-model="selectedElements" value="Whirlwind"></v-checkbox>
+                                    </v-flex>
+                                    <v-flex xs6 sm6>
+                                        <v-checkbox label="Thunder" color="blue" v-model="selectedElements" value="Thunder"></v-checkbox>
+                                    </v-flex>
+                                    <v-flex xs6 sm6>
+                                        <v-checkbox label="Light" color="yellow" v-model="selectedElements" value="Light"></v-checkbox>
+                                    </v-flex>
+                                    <v-flex xs6 sm6>
+                                        <v-checkbox label="Dark" color="indigo" v-model="selectedElements" value="Dark"></v-checkbox>
+                                    </v-flex>
+                                </v-layout>
+                            </v-card-text>
+                        </v-card>
+                    </v-flex>
+                    <!-- element filter end -->
+
+                    <!-- rarity filter -->
+                    <v-flex xs12 sm6 md4>
                         <v-card>
                             <v-card-title>
                                 <h5>Rarity</h5>
@@ -147,20 +154,21 @@
                                 <v-select v-bind:items="rarities" v-model="selectedRarity" multiple chips></v-select>
                             </v-card-text>
                         </v-card>
-                        <!-- rarity filter end -->
                     </v-flex>
+                    <!-- rarity filter end -->
+
                     <v-flex xs12 md12>
                         <v-card id="Search">
                             <!-- search filter -->
                             <v-card-title>
-                                <h6>Search</h6>
+                                <h5>Search</h5>
                                 <v-text-field append-icon="search" label="Enter text" single-line hide-details v-model="search"></v-text-field>
                             </v-card-title>
                             <!-- search filter end -->
 
                             <!-- data table -->
                             <v-card-text>
-                                <v-data-table :headers="characterHeaders" :loading="loading" :search="search" :items="charactersTable" :rows-per-page-items='pageRows'>
+                                <v-data-table :headers="characterHeaders" loading="true" :search="search" :items="charactersTable" :rows-per-page-items='pageRows'>
                                     <template slot="items" scope="props">
                                         <td>{{ props.item.name }}</td>
                                         <td class="text-xs-right">{{ props.item.rarity }}</td>
@@ -187,6 +195,7 @@
                                 </v-data-table>
                             </v-card-text>
                             <!-- data table end -->
+
                         </v-card>
                     </v-flex>
                 </v-layout>

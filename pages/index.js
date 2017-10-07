@@ -44,7 +44,6 @@ var app = new Vue({
         },
         getCharData: function () {
             axios.get('/api/characters/').then(response => {
-                this.loading = false;
                 var data = response.data;
                 charactersTable = [];
                 for (var x = 0; x < data.length; x++) {
@@ -64,10 +63,12 @@ var app = new Vue({
                             max_pow: data[x].max_pow,
                             max_tec: data[x].max_tec,
                             max_vit: data[x].max_vit,
-                            max_spd: data[x].max_spd
+                            max_spd: data[x].max_spd,
+                            total_stat: data[x].max_pow + data[x].max_tec + data[x].max_vit + data[x].max_spd
                         });
                     }
                 };
+                this.loading = false;
                 // this.characters = data;
             });
         }
