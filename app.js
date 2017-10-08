@@ -24,6 +24,11 @@ app.get("/api/characters/", function (req, res) {
     res.send(JSON.stringify(charactersData));
 });
 
-app.listen(port, function() {
+// page not found
+app.get('*', function (req, res) {
+    res.sendFile(__dirname + "/pages/404.html", 404);
+});
+
+app.listen(port, function () {
     console.log('Running on http://localhost:' + port);
 });

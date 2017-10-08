@@ -1,4 +1,4 @@
-var app = new Vue({
+new Vue({
     el: "#app",
     data: {
         characters: [],
@@ -35,8 +35,8 @@ var app = new Vue({
             customFilter: function (items, search, filter) {
                 search = search.toString().toLowerCase();
                 return items.filter(function (i) {
-                    var data = app.selected;
-                    if (filter(i.name, search) && app.filterData(data.rarity, i.rarity) && app.filterData(data.role, i.role) && app.filterData(data.element, i.element))
+                    var data = this.selected;
+                    if (filter(i.name, search) && this.filterData(data.rarity, i.rarity) && this.filterData(data.role, i.role) && this.filterData(data.element, i.element))
                         return true;
                     else
                         return false;

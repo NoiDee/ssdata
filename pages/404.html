@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
+    <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.2/vuetify.min.css" rel="stylesheet">
+    <title>404 Page not found</title>
+    <style>
+        h3 {
+            text-align: justify;
+        }
+    </style>
+</head>
+
+<body>
+
+    <v-app id="app">
+        <template>
+
+            <v-toolbar app dark class="primary">
+                <v-toolbar-title class="white--text">SSData</v-toolbar-title>
+            </v-toolbar>
+
+            <main>
+                <v-container>
+                    <v-layout>
+                        <v-flex>
+                            <h1>Error 404</h1>
+                            <h3>The page you requested is not found. Please click
+                                <a href="/">here</a> to go back home.</h3>
+                        </v-flex>
+                    </v-layout>
+                </v-container>
+            </main>
+
+        </template>
+    </v-app>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.2/vuetify.js"></script>
+    <script>
+        new Vue({
+            el: "#app"
+        });
+    </script>
+</body>
+
+</html>
