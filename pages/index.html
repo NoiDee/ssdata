@@ -15,219 +15,222 @@
 
 <body>
     <v-app id="app">
+        <template>
 
-        <v-toolbar app dark class="primary">
-            <v-toolbar-title class="white--text">SSData</v-toolbar-title>
-        </v-toolbar>
+            <v-toolbar app dark class="primary">
+                <v-toolbar-title class="white--text">SSData</v-toolbar-title>
+            </v-toolbar>
 
-        <main>
-            <v-container fluid grid-list-xs fluid grid-list-sm grid-list-md>
-                <v-layout row wrap>
-                    
-                    <!-- spu  -->
-                    <v-flex xs12 sm6 md4>
-                        <v-card>
-                            <v-card-title>
-                                <h5>Superb Power-up</h5>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex xs10 sm10 md10>
-                                        <v-slider label="Level" :max="stats.spu.max" v-model="stats.spu.value" :color="stats.spu.color" step="1" snap></v-slider>
-                                    </v-flex>
-                                    <v-flex xs2 sm2 md2>
-                                        <v-text-field v-model="stats.spu.value" type="number"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <!-- spu end -->
+            <main>
+                <v-container fluid grid-list-xs fluid grid-list-sm grid-list-md>
+                    <v-layout row wrap>
 
-                    <!-- bonus stats -->
-                    <v-flex xs12 sm6 md4>
-                        <v-card>
-                            <v-card-title>
-                                <h5>Bonus Stats</h5>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex xs10 sm10 md10>
-                                        <v-slider label="Level" :max="stats.bs.max" v-model="stats.bs.value" :color="stats.bs.color" step="1" snap></v-slider>
-                                    </v-flex>
-                                    <v-flex xs2 sm2 md2>
-                                        <v-text-field v-model="stats.bs.value" type="number"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <!-- bonus stats end -->
+                        <!-- spu  -->
+                        <v-flex xs12 sm6 md4>
+                            <v-card>
+                                <v-card-title>
+                                    <h5>Superb Power-up</h5>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs10 sm10 md10>
+                                            <v-slider label="Level" :max="stats.spu.max" v-model="stats.spu.value" :color="stats.spu.color" step="1" snap></v-slider>
+                                        </v-flex>
+                                        <v-flex xs2 sm2 md2>
+                                            <v-text-field v-model="stats.spu.value" type="number"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
+                        <!-- spu end -->
 
-                    <!-- apu -->
-                    <v-flex xs12 sm6 md4>
-                        <v-card>
-                            <v-card-title>
-                                <h5>Amplified Power-up</h5>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex xs10 sm10 md10>
-                                        <v-slider label="Level" :max="stats.apu.max" v-model="stats.apu.value" :color="stats.apu.color" step="1" snap></v-slider>
-                                    </v-flex>
-                                    <v-flex xs2 sm2 md2>
-                                        <v-text-field v-model="stats.apu.value" type="number"></v-text-field>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <!-- apu end -->
-                </v-layout>
+                        <!-- bonus stats -->
+                        <v-flex xs12 sm6 md4>
+                            <v-card>
+                                <v-card-title>
+                                    <h5>Bonus Stats</h5>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs10 sm10 md10>
+                                            <v-slider label="Level" :max="stats.bs.max" v-model="stats.bs.value" :color="stats.bs.color" step="1" snap></v-slider>
+                                        </v-flex>
+                                        <v-flex xs2 sm2 md2>
+                                            <v-text-field v-model="stats.bs.value" type="number"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
+                        <!-- bonus stats end -->
 
-                <v-layout row wrap>
-                    <!-- role filter -->
-                    <v-flex xs12 sm6 md4>
-                        <v-card>
-                            <v-card-title>
-                                <h5>Role</h5>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex xs4 sm4 md4>
-                                        <v-checkbox label="Leader" color="red" v-model="selected.role" value="Leader"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md4>
-                                        <v-checkbox label="Goalkeeper" color="blue" v-model="selected.role" value="Goalkeeper"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md4>
-                                        <v-checkbox label="Defender" color="cyan" v-model="selected.role" value="Defender"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md4>
-                                        <v-checkbox label="Attacker" color="yellow" v-model="selected.role" value="Attacker"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md4>
-                                        <v-checkbox label="Assist" color="green" v-model="selected.role" value="Assist"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4 md4>
-                                        <v-checkbox label="Striker" color="indigo" v-model="selected.role" value="Striker"></v-checkbox>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <!-- role filter end -->
+                        <!-- apu -->
+                        <v-flex xs12 sm6 md4>
+                            <v-card>
+                                <v-card-title>
+                                    <h5>Amplified Power-up</h5>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs10 sm10 md10>
+                                            <v-slider label="Level" :max="stats.apu.max" v-model="stats.apu.value" :color="stats.apu.color" step="1" snap></v-slider>
+                                        </v-flex>
+                                        <v-flex xs2 sm2 md2>
+                                            <v-text-field v-model="stats.apu.value" type="number"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
+                        <!-- apu end -->
+                    </v-layout>
 
-                    <!-- element filter -->
-                    <v-flex xs12 sm6 md4>
-                        <v-card>
-                            <v-card-title>
-                                <h5>Element</h5>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="Ardor" color="red" v-model="selected.element" value="Ardor"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="Whirlwind" color="green" v-model="selected.element" value="Whirlwind"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="Thunder" color="blue" v-model="selected.element" value="Thunder"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="Light" color="yellow" v-model="selected.element" value="Light"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="Dark" color="indigo" v-model="selected.element" value="Dark"></v-checkbox>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <!-- element filter end -->
+                    <v-layout row wrap>
+                        <!-- role filter -->
+                        <v-flex xs12 sm6 md4>
+                            <v-card>
+                                <v-card-title>
+                                    <h5>Role</h5>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs4 sm4 md4>
+                                            <v-checkbox label="Leader" color="red" v-model="selected.role" value="Leader"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4 md4>
+                                            <v-checkbox label="Goalkeeper" color="blue" v-model="selected.role" value="Goalkeeper"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4 md4>
+                                            <v-checkbox label="Defender" color="cyan" v-model="selected.role" value="Defender"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4 md4>
+                                            <v-checkbox label="Attacker" color="yellow" v-model="selected.role" value="Attacker"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4 md4>
+                                            <v-checkbox label="Assist" color="green" v-model="selected.role" value="Assist"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4 md4>
+                                            <v-checkbox label="Striker" color="indigo" v-model="selected.role" value="Striker"></v-checkbox>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
+                        <!-- role filter end -->
 
-                    <!-- rarity filter -->
-                    <v-flex xs12 sm6 md4>
-                        <v-card>
-                            <v-card-title>
-                                <h5>Rarity</h5>
-                            </v-card-title>
-                            <v-card-text>
-                                <v-layout row wrap>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="1" v-model="selected.rarity" value="1"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="2" v-model="selected.rarity" value="2"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="3" v-model="selected.rarity" value="3"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="4" v-model="selected.rarity" value="4"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="5" v-model="selected.rarity" value="5"></v-checkbox>
-                                    </v-flex>
-                                    <v-flex xs4 sm4>
-                                        <v-checkbox label="6" v-model="selected.rarity" value="6"></v-checkbox>
-                                    </v-flex>
-                                </v-layout>
-                            </v-card-text>
-                        </v-card>
-                    </v-flex>
-                    <!-- rarity filter end -->
+                        <!-- element filter -->
+                        <v-flex xs12 sm6 md4>
+                            <v-card>
+                                <v-card-title>
+                                    <h5>Element</h5>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="Ardor" color="red" v-model="selected.element" value="Ardor"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="Whirlwind" color="green" v-model="selected.element" value="Whirlwind"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="Thunder" color="blue" v-model="selected.element" value="Thunder"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="Light" color="yellow" v-model="selected.element" value="Light"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="Dark" color="indigo" v-model="selected.element" value="Dark"></v-checkbox>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
+                        <!-- element filter end -->
 
-                    <v-flex xs12 md12>
-                        <v-card id="Search">
-                            <!-- search filter -->
-                            <v-card-title>
-                                <h5>Search</h5>
-                                <v-text-field append-icon="search" label="Enter text" single-line hide-details v-model="dataTable.search"></v-text-field>
-                            </v-card-title>
-                            <!-- search filter end -->
+                        <!-- rarity filter -->
+                        <v-flex xs12 sm6 md4>
+                            <v-card>
+                                <v-card-title>
+                                    <h5>Rarity</h5>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="1" v-model="selected.rarity" value="1"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="2" v-model="selected.rarity" value="2"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="3" v-model="selected.rarity" value="3"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="4" v-model="selected.rarity" value="4"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="5" v-model="selected.rarity" value="5"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex xs4 sm4>
+                                            <v-checkbox label="6" v-model="selected.rarity" value="6"></v-checkbox>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
+                        <!-- rarity filter end -->
 
-                            <!-- data table -->
-                            <v-card-text>
-                                <v-data-table :headers="dataTable.headers" :custom-filter="dataTable.customFilter" :filter="dataTable.filter" :loading="dataTable.isLoading" :search="dataTable.search" :items="characters" :rows-per-page-items='dataTable.pageRows'>
-                                    <template slot="items" scope="props">
-                                        <td>{{ props.item.name }}</td>
-                                        <td class="text-xs-right">{{ props.item.rarity }}</td>
-                                        <td class="text-xs-right">{{ props.item.element }}</td>
-                                        <td class="text-xs-right">{{ props.item.role }}</td>
-                                        <td class="text-xs-right">{{ Math.floor(props.item.max_pow * superb_stat_bonus() + stats.apu.value + stats.bs.value)
-                                            }}
-                                        </td>
-                                        <td class="text-xs-right">{{ Math.floor(props.item.max_tec * superb_stat_bonus() + stats.apu.value + stats.bs.value)
-                                            }}
-                                        </td>
-                                        <td class="text-xs-right">{{ Math.floor(props.item.max_vit * superb_stat_bonus() + stats.apu.value + stats.bs.value)
-                                            }}
-                                        </td>
-                                        <td class="text-xs-right">{{ Math.floor(props.item.max_spd * superb_stat_bonus() + stats.apu.value + stats.bs.value)
-                                            }}
-                                        </td>
-                                        <td class="text-xs-right">{{ Math.floor( props.item.max_pow * superb_stat_bonus() ) + Math.floor( props.item.max_tec
-                                            * superb_stat_bonus() ) + Math.floor( props.item.max_vit * superb_stat_bonus()
-                                            ) + Math.floor( props.item.max_spd * superb_stat_bonus() ) + 4 * (stats.apu.value
-                                            + stats.bs.value) }}
-                                        </td>
-                                    </template>
-                                </v-data-table>
-                            </v-card-text>
-                            <!-- data table end -->
+                        <v-flex xs12 md12>
+                            <v-card id="Search">
+                                <!-- search filter -->
+                                <v-card-title>
+                                    <h5>Search</h5>
+                                    <v-text-field append-icon="search" label="Enter text" single-line hide-details v-model="dataTable.search"></v-text-field>
+                                </v-card-title>
+                                <!-- search filter end -->
 
-                        </v-card>
-                    </v-flex>
-                </v-layout>
+                                <!-- data table -->
+                                <v-card-text>
+                                    <v-data-table :headers="dataTable.headers" :custom-filter="dataTable.customFilter" :filter="dataTable.filter" :loading="dataTable.isLoading"
+                                        :search="dataTable.search" :items="characters" :rows-per-page-items='dataTable.pageRows'>
+                                        <template slot="items" scope="props">
+                                            <td>{{ props.item.name }}</td>
+                                            <td class="text-xs-right">{{ props.item.rarity }}</td>
+                                            <td class="text-xs-right">{{ props.item.element }}</td>
+                                            <td class="text-xs-right">{{ props.item.role }}</td>
+                                            <td class="text-xs-right">{{ Math.floor(props.item.max_pow * superb_stat_bonus() + stats.apu.value + stats.bs.value)
+                                                }}
+                                            </td>
+                                            <td class="text-xs-right">{{ Math.floor(props.item.max_tec * superb_stat_bonus() + stats.apu.value + stats.bs.value)
+                                                }}
+                                            </td>
+                                            <td class="text-xs-right">{{ Math.floor(props.item.max_vit * superb_stat_bonus() + stats.apu.value + stats.bs.value)
+                                                }}
+                                            </td>
+                                            <td class="text-xs-right">{{ Math.floor(props.item.max_spd * superb_stat_bonus() + stats.apu.value + stats.bs.value)
+                                                }}
+                                            </td>
+                                            <td class="text-xs-right">{{ Math.floor( props.item.max_pow * superb_stat_bonus() ) + Math.floor( props.item.max_tec
+                                                * superb_stat_bonus() ) + Math.floor( props.item.max_vit * superb_stat_bonus()
+                                                ) + Math.floor( props.item.max_spd * superb_stat_bonus() ) + 4 * (stats.apu.value
+                                                + stats.bs.value) }}
+                                            </td>
+                                        </template>
+                                    </v-data-table>
+                                </v-card-text>
+                                <!-- data table end -->
 
-                <v-btn v-scroll-to="'#Search'" fixed dark fab bottom right color="pink">
-                    <v-icon>search</v-icon>
-                </v-btn>
+                            </v-card>
+                        </v-flex>
+                    </v-layout>
 
-            </v-container>
-        </main>
+                    <v-btn v-scroll-to="'#Search'" fixed dark fab bottom right color="pink">
+                        <v-icon>search</v-icon>
+                    </v-btn>
+
+                </v-container>
+            </main>
+        </template>
     </v-app>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
