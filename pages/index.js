@@ -70,7 +70,7 @@ var app = new Vue({
         getCharData: function () {
             axios.get('/api/characters/').then(response => {
                 var data = response.data;
-                characters = [];
+                this.characters = [];
                 for (var x = 0; x < data.length; x++) {
                     if (this.isPlayer(data[x].category)) {
                         var base = data[x].id.toString().substring(0, 1);

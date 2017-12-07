@@ -1,5 +1,6 @@
 var express = require("express");
 var bodyParser = require("body-parser");
+var request = require('request');
 
 var charactersData = require("./data/characters.json")
 
@@ -21,7 +22,14 @@ app.get("/", function (req, res) {
 
 // select characters
 app.get("/api/characters/", function (req, res) {
-    res.send(JSON.stringify(charactersData));
+    request('https://ssherder.com/data-api/characters/', function (error, response, body) {
+      if (!error && response.statusCode == 200) {
+        res.send(body)
+      }
+      else{
+        res.sendFile(__dirname + "/pages/404.html", 404);
+      }
+    });
 });
 
 // page not found

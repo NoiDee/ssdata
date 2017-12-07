@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.2/vuetify.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.17.4/vuetify.min.css" rel="stylesheet">
     <title>SSData</title>
     <style>
         main {
@@ -30,7 +30,7 @@
                         <v-flex xs12 sm6 md4>
                             <v-card>
                                 <v-card-title>
-                                    <h5>Superb Power-up</h5>
+                                    <div class="headline">Superb Power-up</div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
@@ -50,7 +50,7 @@
                         <v-flex xs12 sm6 md4>
                             <v-card>
                                 <v-card-title>
-                                    <h5>Bonus Stats</h5>
+                                    <div class="headline">Bonus Stats</div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
@@ -70,7 +70,7 @@
                         <v-flex xs12 sm6 md4>
                             <v-card>
                                 <v-card-title>
-                                    <h5>Amplified Power-up</h5>
+                                    <div class="headline">Amplified Power-up</div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
@@ -92,7 +92,7 @@
                         <v-flex xs12 sm6 md4>
                             <v-card>
                                 <v-card-title>
-                                    <h5>Role</h5>
+                                    <div class="headline">Role</div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
@@ -124,7 +124,7 @@
                         <v-flex xs12 sm6 md4>
                             <v-card>
                                 <v-card-title>
-                                    <h5>Element</h5>
+                                    <div class="headline">Element</div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
@@ -153,7 +153,7 @@
                         <v-flex xs12 sm6 md4>
                             <v-card>
                                 <v-card-title>
-                                    <h5>Rarity</h5>
+                                    <div class="headline">Rarity</div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
@@ -185,8 +185,14 @@
                             <v-card id="Search">
                                 <!-- search filter -->
                                 <v-card-title>
-                                    <h5>Search</h5>
-                                    <v-text-field append-icon="search" label="Enter text" single-line hide-details v-model="dataTable.search"></v-text-field>
+                                    <v-layout row wrap>
+                                        <v-flex xs12 md12>
+                                            <div class="headline">Search</div>
+                                        </v-flex>
+                                        <v-flex offset-xs1 offset-md1 xs11 md11>
+                                            <v-text-field append-icon="search" label="Enter text" single-line hide-details v-model="dataTable.search"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
                                 </v-card-title>
                                 <!-- search filter end -->
 
@@ -234,9 +240,9 @@
         </template>
     </v-app>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.16.2/axios.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.4.4/vue.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.16.2/vuetify.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.17.1/axios.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.9/vue.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.17.4/vuetify.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue-scrollto@2.7.8/vue-scrollto.min.js"></script>
     <script src="index.js"></script>
 </body>
