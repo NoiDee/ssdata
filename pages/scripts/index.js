@@ -1,6 +1,7 @@
 var app = new Vue({
     el: "#app",
     data: {
+        latestChar: true,
         characters: [],
         rarity: [],
         stats: {
@@ -105,12 +106,12 @@ var app = new Vue({
             var stLevel = this.stats.level.value / 10;
             var minStatRate = Math.pow(.176, (6 - (stLevel)) / 10);
             var stat = Math.round(minStat * minStatRate);
-            var finalStat = Math.round(stat + (maxStat - stat) * Math.pow((this.stats.level.value - 1) / (60 - 1), 1));
-            var totalFinal = Math.floor(finalStat * this.getSpuBonus() + this.getApuBonus(rarity) + this.stats.bs.value);
+            var finalStat = Math.floor(stat + (maxStat - stat) * Math.pow((this.stats.level.value - 1) / (60 - 1), 1));
+            var totalFinal = Math.floor(finalStat * this.getSpuBonus()) + this.getApuBonus(rarity) + this.stats.bs.value;
             return totalFinal;
         },
-        getApuBonus: function(rarity){
-            return (rarity > 5) ? this.stats.apu.value : this.stats.apu.value * 1.2
+        getApuBonus: function (rarity) {
+            return (rarity > 5) ? this.stats.apu.value : Math.floor(this.stats.apu.value * 1.2);
         },
         getSpuBonus: function () {
             return 1 + this.stats.spu.value * 0.1;
@@ -118,8 +119,9 @@ var app = new Vue({
         getCharData: function () {
             axios.get('/api/characters/').then(response => {
                 var data = response.data;
+                var ids = [];
                 this.characters = [];
-                for (var x = 0; x < data.length; x++) {
+                for (var x = data.length - 1; x >= 0; x--) {
                     if (this.isPlayer(data[x].category)) {
                         var base = data[x].id.toString().substring(0, 1);
                         if (base == "3") {
@@ -127,6 +129,16 @@ var app = new Vue({
                         } else if (base == "2") {
                             data[x].name += " (E)";
                         }
+
+                        // if (this.latestChar) {
+                        //     var id = data[x].id.toString().substring(1);
+
+                        //     if (ids.indexOf(id) === -1) {
+                        //         continue;
+                        //     } else {
+                        //         ids.push(id);
+                        //     }
+                        // }
 
                         this.characters.push({
                             name: data[x].name,
@@ -141,8 +153,7 @@ var app = new Vue({
                             min_tec: data[x].min_tec,
                             min_vit: data[x].min_vit,
                             min_spd: data[x].min_spd,
-                            total_stat: 
-                                this.calculateStat(data[x].min_pow, data[x].max_pow) +
+                            total_stat: this.calculateStat(data[x].min_pow, data[x].max_pow) +
                                 this.calculateStat(data[x].min_tec, data[x].max_tec) +
                                 this.calculateStat(data[x].min_vit, data[x].max_vit) +
                                 this.calculateStat(data[x].min_spd, data[x].max_spd)
