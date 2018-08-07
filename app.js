@@ -2,8 +2,6 @@ var express = require("express");
 var bodyParser = require("body-parser");
 var request = require('request');
 
-var charactersData = require("./data/characters.json")
-
 var app = express();
 var port = process.env.PORT || 3000;
 

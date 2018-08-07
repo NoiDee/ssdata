@@ -12,6 +12,10 @@
         main {
             margin-bottom: 70px;
         }
+
+        .card {
+            height: 100% !important;
+        }
     </style>
 </head>
 
@@ -20,16 +24,40 @@
         <h1 class="display-3">This website uses Javascript</h1>
         <h2 class="display-2">Please enable Javascript to view this website.</h2>
     </noscript>
+
     <v-app id="app">
+
         <template>
 
             <v-toolbar app dark class="primary">
                 <v-toolbar-title class="white--text">SSData</v-toolbar-title>
             </v-toolbar>
 
-            <main>
-                <v-container fluid grid-list-xs fluid grid-list-sm grid-list-md>
+            <v-content>
+
+                <v-container fluid grid-list-xs grid-list-sm grid-list-md>
                     <v-layout row wrap>
+
+                        <!-- level  -->
+                        <v-flex xs12 sm6 md4>
+                            <v-card>
+                                <v-card-title>
+                                    <div class="headline">Level</div>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-layout row wrap>
+                                        <v-flex xs10 sm10 md10>
+                                            <v-slider label="Level" :max="stats.level.max" :min="stats.level.min" :step="stats.level.step" v-model="stats.level.value"
+                                                :color="stats.level.color"></v-slider>
+                                        </v-flex>
+                                        <v-flex xs2 sm2 md2>
+                                            <v-text-field v-model="stats.level.value" type="number"></v-text-field>
+                                        </v-flex>
+                                    </v-layout>
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
+                        <!-- level end -->
 
                         <!-- spu  -->
                         <v-flex xs12 sm6 md4>
@@ -40,7 +68,7 @@
                                 <v-card-text>
                                     <v-layout row wrap>
                                         <v-flex xs10 sm10 md10>
-                                            <v-slider label="Level" :max="stats.spu.max" v-model="stats.spu.value" :color="stats.spu.color" snap></v-slider>
+                                            <v-slider label="Level" :max="stats.spu.max" v-model="stats.spu.value" :color="stats.spu.color"></v-slider>
                                         </v-flex>
                                         <v-flex xs2 sm2 md2>
                                             <v-text-field v-model="stats.spu.value" type="number"></v-text-field>
@@ -55,12 +83,12 @@
                         <v-flex xs12 sm6 md4>
                             <v-card>
                                 <v-card-title>
-                                    <div class="headline">Bonus Stats</div>
+                                    <div class="headline">+Power-up</div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-layout row wrap>
                                         <v-flex xs10 sm10 md10>
-                                            <v-slider label="Level" :max="stats.bs.max" v-model="stats.bs.value" :color="stats.bs.color" snap></v-slider>
+                                            <v-slider label="Level" :max="stats.bs.max" v-model="stats.bs.value" :color="stats.bs.color"></v-slider>
                                         </v-flex>
                                         <v-flex xs2 sm2 md2>
                                             <v-text-field v-model="stats.bs.value" type="number"></v-text-field>
@@ -80,7 +108,7 @@
                                 <v-card-text>
                                     <v-layout row wrap>
                                         <v-flex xs10 sm10 md10>
-                                            <v-slider label="Level" :max="stats.apu.max" v-model="stats.apu.value" :color="stats.apu.color" snap></v-slider>
+                                            <v-slider label="Level" :max="stats.apu.max" v-model="stats.apu.value" :color="stats.apu.color"></v-slider>
                                         </v-flex>
                                         <v-flex xs2 sm2 md2>
                                             <v-text-field v-model="stats.apu.value" type="number"></v-text-field>
@@ -90,9 +118,7 @@
                             </v-card>
                         </v-flex>
                         <!-- apu end -->
-                    </v-layout>
 
-                    <v-layout row wrap>
                         <!-- role filter -->
                         <v-flex xs12 sm6 md4>
                             <v-card>
@@ -203,29 +229,30 @@
 
                                 <!-- data table -->
                                 <v-card-text>
-                                    <v-data-table :headers="dataTable.headers" :custom-filter="dataTable.customFilter" :filter="dataTable.filter" :loading="dataTable.isLoading"
-                                        :search="dataTable.search" :items="characters" :rows-per-page-items='dataTable.pageRows'>
+                                    <v-data-table :headers="dataTable.headers" :custom-filter="dataTable.customFilter" :loading="dataTable.isLoading" :search="dataTable.search"
+                                        :items="characters" :rows-per-page-items='dataTable.pageRows'>
                                         <template slot="items" scope="props">
-                                            <td>{{ props.item.name }}</td>
+                                            <td>
+                                                <b>{{ props.item.name }}</b>
+                                            </td>
                                             <td class="text-xs-right">{{ props.item.rarity }}</td>
                                             <td class="text-xs-right">{{ props.item.role }}</td>
                                             <td class="text-xs-right">{{ props.item.element }}</td>
-                                            <td class="text-xs-right">{{ Math.floor(props.item.max_pow * superb_stat_bonus() + stats.apu.value + stats.bs.value)
-                                                }}
+                                            <td class="text-xs-right">{{ calculateStat(props.item.min_pow, props.item.max_pow) }}
                                             </td>
-                                            <td class="text-xs-right">{{ Math.floor(props.item.max_tec * superb_stat_bonus() + stats.apu.value + stats.bs.value)
-                                                }}
+                                            <td class="text-xs-right">{{ calculateStat(props.item.min_tec, props.item.max_tec) }}
                                             </td>
-                                            <td class="text-xs-right">{{ Math.floor(props.item.max_vit * superb_stat_bonus() + stats.apu.value + stats.bs.value)
-                                                }}
+                                            <td class="text-xs-right">{{ calculateStat(props.item.min_vit, props.item.max_vit) }}
                                             </td>
-                                            <td class="text-xs-right">{{ Math.floor(props.item.max_spd * superb_stat_bonus() + stats.apu.value + stats.bs.value)
-                                                }}
+                                            <td class="text-xs-right">{{ calculateStat(props.item.min_spd, props.item.max_spd) }}
                                             </td>
-                                            <td class="text-xs-right">{{ Math.floor( props.item.max_pow * superb_stat_bonus() ) + Math.floor( props.item.max_tec
-                                                * superb_stat_bonus() ) + Math.floor( props.item.max_vit * superb_stat_bonus()
-                                                ) + Math.floor( props.item.max_spd * superb_stat_bonus() ) + 4 * (stats.apu.value
-                                                + stats.bs.value) }}
+                                            <td class="text-xs-right">
+                                                <b>{{ 
+                                                    calculateStat(props.item.min_pow, props.item.max_pow) + 
+                                                    calculateStat(props.item.min_tec, props.item.max_tec) + 
+                                                    calculateStat(props.item.min_vit, props.item.max_vit) + 
+                                                    calculateStat(props.item.min_spd, props.item.max_spd) 
+                                                }}</b>
                                             </td>
                                         </template>
                                     </v-data-table>
@@ -241,8 +268,11 @@
                     </v-btn>
 
                 </v-container>
-            </main>
+
+            </v-content>
+
         </template>
+
     </v-app>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>

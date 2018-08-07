@@ -4,9 +4,28 @@ var app = new Vue({
         characters: [],
         rarity: [],
         stats: {
-            bs: { value: 40, max: 40, color: 'light-green' },
-            spu: { value: 5, max: 5, color: 'deep-orange' },
-            apu: { value: 0, max: 30, color: 'cyan' }
+            level: {
+                value: 70,
+                max: 70,
+                min: 1,
+                step: 1,
+                color: "blue"
+            },
+            bs: {
+                value: 40,
+                max: 40,
+                color: 'light-green'
+            },
+            spu: {
+                value: 5,
+                max: 5,
+                color: 'deep-orange'
+            },
+            apu: {
+                value: 0,
+                max: 30,
+                color: 'cyan'
+            }
         },
         selected: {
             rarity: [],
@@ -17,30 +36,52 @@ var app = new Vue({
             search: '',
             isLoading: true,
             pageRows: [15, 30, 50],
-            filter: function (val, search) {
-                return val !== null &&
-                    ['undefined', 'boolean'].indexOf(typeof val) === -1 &&
-                    val.toString().toLowerCase().indexOf(search) !== -1
-            },
-            headers: [
-                { text: 'Name', align: 'left', value: 'name' },
-                { text: 'Rarity', value: 'rarity' },
-                { text: 'Role', value: 'role' },
-                { text: 'Element', value: 'element' },
-                { text: 'Max Power', value: 'max_pow' },
-                { text: 'Max Technique', value: 'max_tec' },
-                { text: 'Max Vitality', value: 'max_vit' },
-                { text: 'Max Speed', value: 'max_spd' },
-                { text: 'Total Stats', value: 'total_stat' }
+            headers: [{
+                    text: 'Name',
+                    align: 'left',
+                    value: 'name'
+                },
+                {
+                    text: 'Rarity',
+                    value: 'rarity'
+                },
+                {
+                    text: 'Role',
+                    value: 'role'
+                },
+                {
+                    text: 'Element',
+                    value: 'element'
+                },
+                {
+                    text: 'Max Power',
+                    value: 'max_pow'
+                },
+                {
+                    text: 'Max Technique',
+                    value: 'max_tec'
+                },
+                {
+                    text: 'Max Vitality',
+                    value: 'max_vit'
+                },
+                {
+                    text: 'Max Speed',
+                    value: 'max_spd'
+                },
+                {
+                    text: 'Total Stats',
+                    value: 'total_stat'
+                }
             ],
             customFilter: function (items, search, filter) {
                 search = search.toString().toLowerCase();
                 return items.filter(function (i) {
                     var data = app.selected;
-                    if (filter(i.name, search) && app.filterData(data.rarity, i.rarity) && app.filterData(data.role, i.role) && app.filterData(data.element, i.element))
-                        return true;
-                    else
-                        return false;
+                    return filter(i.name, search) &&
+                        app.filterData(data.rarity, i.rarity) &&
+                        app.filterData(data.role, i.role) &&
+                        app.filterData(data.element, i.element);
                 });
             }
         },
@@ -60,11 +101,18 @@ var app = new Vue({
         isPlayer: function (character) {
             return (character === "Player") ? true : false;
         },
-        origin_stat: function (min, max, RARITY, LEVEL) {
-            rarity_scale_thing = Math.round(min * Math.pow(.176, (6 - RARITY) / 10));
-            return Math.floor(min + (max - rarity_scale_thing) * Math.pow((LEVEL - 1) / (60 - 1), 1))
+        calculateStat: function (minStat, maxStat, rarity) {
+            var stLevel = this.stats.level.value / 10;
+            var minStatRate = Math.pow(.176, (6 - (stLevel)) / 10);
+            var stat = Math.round(minStat * minStatRate);
+            var finalStat = Math.round(stat + (maxStat - stat) * Math.pow((this.stats.level.value - 1) / (60 - 1), 1));
+            var totalFinal = Math.floor(finalStat * this.getSpuBonus() + this.getApuBonus(rarity) + this.stats.bs.value);
+            return totalFinal;
         },
-        superb_stat_bonus: function () {
+        getApuBonus: function(rarity){
+            return (rarity > 5) ? this.stats.apu.value : this.stats.apu.value * 1.2
+        },
+        getSpuBonus: function () {
             return 1 + this.stats.spu.value * 0.1;
         },
         getCharData: function () {
@@ -76,10 +124,10 @@ var app = new Vue({
                         var base = data[x].id.toString().substring(0, 1);
                         if (base == "3") {
                             data[x].name += " (EE)";
-                        }
-                        else if (base == "2") {
+                        } else if (base == "2") {
                             data[x].name += " (E)";
                         }
+
                         this.characters.push({
                             name: data[x].name,
                             rarity: data[x].rarity,
@@ -89,7 +137,15 @@ var app = new Vue({
                             max_tec: data[x].max_tec,
                             max_vit: data[x].max_vit,
                             max_spd: data[x].max_spd,
-                            total_stat: data[x].max_pow + data[x].max_tec + data[x].max_vit + data[x].max_spd
+                            min_pow: data[x].min_pow,
+                            min_tec: data[x].min_tec,
+                            min_vit: data[x].min_vit,
+                            min_spd: data[x].min_spd,
+                            total_stat: 
+                                this.calculateStat(data[x].min_pow, data[x].max_pow) +
+                                this.calculateStat(data[x].min_tec, data[x].max_tec) +
+                                this.calculateStat(data[x].min_vit, data[x].max_vit) +
+                                this.calculateStat(data[x].min_spd, data[x].max_spd)
                         });
                     }
                 };
