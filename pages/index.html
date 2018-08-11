@@ -6,14 +6,14 @@
     <meta name="Description" content="A Soccer Spirits Character stats page">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, minimal-ui">
     <link href='https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons' rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/vuetify/0.17.4/vuetify.min.css" rel="stylesheet">
+    <link href="/node_modules/vuetify/dist/vuetify.css" rel="stylesheet">
     <title>SSData</title>
     <style>
         main {
             margin-bottom: 70px;
         }
 
-        .card {
+        .v-card {
             height: 100% !important;
         }
     </style>
@@ -169,7 +169,7 @@
                                     <!-- element filter end -->
 
                                     <!-- latest char -->
-                                    <!-- <v-switch label="Latest Character" v-model="latestChar"></v-switch> -->
+                                    <v-switch label="Show last evolution only" v-model="showLastEvoOnly"></v-switch>
                                     <!-- latest char end -->
 
                                 </v-card-text>
@@ -196,26 +196,20 @@
                                 <v-card-text>
                                     <v-data-table :headers="dataTable.headers" :custom-filter="dataTable.customFilter" :loading="dataTable.isLoading" :search="dataTable.search"
                                         :items="characters" :rows-per-page-items='dataTable.pageRows'>
-                                        <template slot="items" scope="props">
+                                        <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
+                                        <template slot="items" slot-scope="props">
                                             <td>
                                                 <b>{{ props.item.name }}</b>
                                             </td>
                                             <td class="text-xs-right">{{ props.item.rarity }}</td>
                                             <td class="text-xs-right">{{ props.item.role }}</td>
                                             <td class="text-xs-right">{{ props.item.element }}</td>
-                                            <td class="text-xs-right">{{ calculateStat(props.item.min_pow, props.item.max_pow) }}
-                                            </td>
-                                            <td class="text-xs-right">{{ calculateStat(props.item.min_tec, props.item.max_tec) }}
-                                            </td>
-                                            <td class="text-xs-right">{{ calculateStat(props.item.min_vit, props.item.max_vit) }}
-                                            </td>
-                                            <td class="text-xs-right">{{ calculateStat(props.item.min_spd, props.item.max_spd) }}
-                                            </td>
+                                            <td class="text-xs-right">{{ props.item.cur_pow }}</td>
+                                            <td class="text-xs-right">{{ props.item.cur_tec }}</td>
+                                            <td class="text-xs-right">{{ props.item.cur_vit }}</td>
+                                            <td class="text-xs-right">{{ props.item.cur_spd }}</td>
                                             <td class="text-xs-right">
-                                                <b>{{ calculateStat(props.item.min_pow, props.item.max_pow) + calculateStat(props.item.min_tec,
-                                                    props.item.max_tec) + calculateStat(props.item.min_vit, props.item.max_vit)
-                                                    + calculateStat(props.item.min_spd, props.item.max_spd) }}
-                                                </b>
+                                                <b>{{ props.item.cur_total}}</b>
                                             </td>
                                         </template>
                                     </v-data-table>
@@ -238,11 +232,12 @@
 
     </v-app>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.16/vue.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/vuetify/1.0.19/vuetify.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/vue-scrollto@2.11.0/vue-scrollto.min.js"></script>
-    <script src="scripts/index.js"></script>
+    <script src="/node_modules/axios/dist/axios.js"></script>
+    <script src="/node_modules/vue/dist/vue.js"></script>
+    <script src="/node_modules/vuetify/dist/vuetify.js"></script>
+    <script src="/node_modules/vue-scrollto/vue-scrollto.js"></script>
+    <script src="/node_modules/lodash/lodash.js"></script>
+    <script src="./scripts/index.js"></script>
 </body>
 
 </html>

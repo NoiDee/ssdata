@@ -1,7 +1,7 @@
-var app = new Vue({
+let app = new Vue({
     el: "#app",
     data: {
-        latestChar: true,
+        showLastEvoOnly: true,
         characters: [],
         rarity: [],
         stats: {
@@ -55,31 +55,32 @@ var app = new Vue({
                     value: 'element'
                 },
                 {
-                    text: 'Max Power',
-                    value: 'max_pow'
+                    text: 'Power',
+                    value: 'cur_pow'
                 },
                 {
-                    text: 'Max Technique',
-                    value: 'max_tec'
+                    text: 'Technique',
+                    value: 'cur_tec'
                 },
                 {
-                    text: 'Max Vitality',
-                    value: 'max_vit'
+                    text: 'Vitality',
+                    value: 'cur_vit'
                 },
                 {
-                    text: 'Max Speed',
-                    value: 'max_spd'
+                    text: 'Speed',
+                    value: 'cur_spd'
                 },
                 {
                     text: 'Total Stats',
-                    value: 'total_stat'
+                    value: 'cur_total'
                 }
             ],
             customFilter: function (items, search, filter) {
-                search = search.toString().toLowerCase();
+                search = _.lowerCase(search);
                 return items.filter(function (i) {
                     var data = app.selected;
                     return filter(i.name, search) &&
+                        app.filterLastEvo(i.isLastEvo) &&
                         app.filterData(data.rarity, i.rarity) &&
                         app.filterData(data.role, i.role) &&
                         app.filterData(data.element, i.element);
@@ -88,10 +89,23 @@ var app = new Vue({
         },
 
     },
-    mounted: function () {
+    created: function () {
         this.getCharData();
+        this.debouncedCalcCharsStats = _.debounce(this.calculateCharsStats, 500)
+    },
+    watch: {
+        stats: {
+            handler: function () {
+                this.debouncedCalcCharsStats();
+            },
+            deep: true
+        }
     },
     methods: {
+        filterLastEvo: function (val) {
+            return (this.showLastEvoOnly && val) ||
+                (this.showLastEvoOnly == false);
+        },
         filterData: function (arr, obj) {
             if (arr.length >= 1) {
                 if (!arr.includes(obj.toString()))
@@ -103,11 +117,11 @@ var app = new Vue({
             return (character === "Player") ? true : false;
         },
         calculateStat: function (minStat, maxStat, rarity) {
-            var stLevel = this.stats.level.value / 10;
-            var minStatRate = Math.pow(.176, (6 - (stLevel)) / 10);
-            var stat = Math.round(minStat * minStatRate);
-            var finalStat = Math.floor(stat + (maxStat - stat) * Math.pow((this.stats.level.value - 1) / (60 - 1), 1));
-            var totalFinal = Math.floor(finalStat * this.getSpuBonus()) + this.getApuBonus(rarity) + this.stats.bs.value;
+            let stLevel = this.stats.level.value / 10;
+            let minStatRate = Math.pow(.176, (6 - (stLevel)) / 10);
+            let stat = Math.round(minStat * minStatRate);
+            let finalStat = Math.floor(stat + (maxStat - stat) * Math.pow((this.stats.level.value - 1) / (60 - 1), 1));
+            let totalFinal = Math.floor(finalStat * this.getSpuBonus()) + this.getApuBonus(rarity) + this.stats.bs.value;
             return totalFinal;
         },
         getApuBonus: function (rarity) {
@@ -116,52 +130,78 @@ var app = new Vue({
         getSpuBonus: function () {
             return 1 + this.stats.spu.value * 0.1;
         },
+        calculateCharsStats: function () {
+            this.dataTable.isLoading = true;
+            this.characters.forEach(char => {
+                let cur_pow = this.calculateStat(char.min_pow, char.max_pow);
+                let cur_tec = this.calculateStat(char.min_tec, char.max_tec);
+                let cur_vit = this.calculateStat(char.min_vit, char.max_vit);
+                let cur_spd = this.calculateStat(char.min_spd, char.max_spd);
+                let cur_total = cur_pow + cur_tec + cur_vit + cur_spd;
+
+                char.cur_pow = cur_pow;
+                char.cur_tec = cur_tec;
+                char.cur_vit = cur_vit;
+                char.cur_spd = cur_spd;
+                char.cur_total = cur_total;
+            });
+            this.dataTable.isLoading = false;
+        },
         getCharData: function () {
             axios.get('/api/characters/').then(response => {
-                var data = response.data;
-                var ids = [];
-                this.characters = [];
-                for (var x = data.length - 1; x >= 0; x--) {
-                    if (this.isPlayer(data[x].category)) {
-                        var base = data[x].id.toString().substring(0, 1);
-                        if (base == "3") {
-                            data[x].name += " (EE)";
-                        } else if (base == "2") {
-                            data[x].name += " (E)";
-                        }
-
-                        // if (this.latestChar) {
-                        //     var id = data[x].id.toString().substring(1);
-
-                        //     if (ids.indexOf(id) === -1) {
-                        //         continue;
-                        //     } else {
-                        //         ids.push(id);
-                        //     }
-                        // }
-
-                        this.characters.push({
-                            name: data[x].name,
-                            rarity: data[x].rarity,
-                            role: data[x].role,
-                            element: data[x].element,
-                            max_pow: data[x].max_pow,
-                            max_tec: data[x].max_tec,
-                            max_vit: data[x].max_vit,
-                            max_spd: data[x].max_spd,
-                            min_pow: data[x].min_pow,
-                            min_tec: data[x].min_tec,
-                            min_vit: data[x].min_vit,
-                            min_spd: data[x].min_spd,
-                            total_stat: this.calculateStat(data[x].min_pow, data[x].max_pow) +
-                                this.calculateStat(data[x].min_tec, data[x].max_tec) +
-                                this.calculateStat(data[x].min_vit, data[x].max_vit) +
-                                this.calculateStat(data[x].min_spd, data[x].max_spd)
-                        });
-                    }
-                };
+                this.loadCharData(response.data);
+                this.calculateCharsStats();
                 this.dataTable.isLoading = false;
             });
+        },
+        appendPlayerNameEvo: function (name, id) {
+            let base = id.toString().substring(0, 1);
+            if (base == "3") {
+                name += " (EE)";
+            } else if (base == "2") {
+                name += " (E)";
+            }
+            return name;
+        },
+        isLastEvolution: function (id, ids) {
+            let isLast;
+            if (this.showLastEvoOnly) {
+                id = id.toString().substring(1);
+                isLast = !(ids.indexOf(id) >= 0);
+                if (isLast)
+                    ids.push(id);
+            }
+            return isLast;
+        },
+        loadCharData: function (data) {
+            this.characters = [];
+
+            for (var x = data.length - 1; x >= 0; x--) {
+                if (this.isPlayer(data[x].category)) {
+                    let ids = [];
+
+                    this.characters.push({
+                        name: this.appendPlayerNameEvo(data[x].name, data[x].id),
+                        rarity: data[x].rarity,
+                        role: data[x].role,
+                        element: data[x].element,
+                        isLastEvo: this.isLastEvolution(data[x].id, ids),
+                        max_pow: data[x].max_pow,
+                        max_tec: data[x].max_tec,
+                        max_vit: data[x].max_vit,
+                        max_spd: data[x].max_spd,
+                        min_pow: data[x].min_pow,
+                        min_tec: data[x].min_tec,
+                        min_vit: data[x].min_vit,
+                        min_spd: data[x].min_spd,
+                        cur_pow: 0,
+                        cur_tec: 0,
+                        cur_vit: 0,
+                        cur_spd: 0,
+                        cur_total: 0
+                    });
+                }
+            };
         }
     }
 });
