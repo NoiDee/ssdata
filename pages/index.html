@@ -102,22 +102,22 @@
                                     <!-- role filter -->
                                     <div class="headline">Role</div>
                                     <v-layout row wrap>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Leader" color="red" v-model="selected.role" value="Leader"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Goalkeeper" color="blue" v-model="selected.role" value="Goalkeeper"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Defender" color="cyan" v-model="selected.role" value="Defender"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Attacker" color="yellow" v-model="selected.role" value="Attacker"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Assist" color="green" v-model="selected.role" value="Assist"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Striker" color="indigo" v-model="selected.role" value="Striker"></v-checkbox>
                                         </v-flex>
                                     </v-layout>
@@ -126,22 +126,22 @@
                                     <!-- rarity filter -->
                                     <div class="headline">Rarity</div>
                                     <v-layout row wrap>
-                                        <v-flex xs4 sm2>
+                                        <v-flex>
                                             <v-checkbox label="1" v-model="selected.rarity" value="1"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm2>
+                                        <v-flex>
                                             <v-checkbox label="2" v-model="selected.rarity" value="2"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm2>
+                                        <v-flex>
                                             <v-checkbox label="3" v-model="selected.rarity" value="3"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm2>
+                                        <v-flex>
                                             <v-checkbox label="4" v-model="selected.rarity" value="4"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm2>
+                                        <v-flex>
                                             <v-checkbox label="5" v-model="selected.rarity" value="5"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm2>
+                                        <v-flex>
                                             <v-checkbox label="6" v-model="selected.rarity" value="6"></v-checkbox>
                                         </v-flex>
                                     </v-layout>
@@ -150,23 +150,39 @@
                                     <!-- element filter -->
                                     <div class="headline">Element</div>
                                     <v-layout row wrap>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Ardor" color="red" v-model="selected.element" value="Ardor"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Whirlwind" color="green" v-model="selected.element" value="Whirlwind"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Thunder" color="blue" v-model="selected.element" value="Thunder"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Light" color="yellow" v-model="selected.element" value="Light"></v-checkbox>
                                         </v-flex>
-                                        <v-flex xs4 sm4 md2>
+                                        <v-flex>
                                             <v-checkbox label="Dark" color="indigo" v-model="selected.element" value="Dark"></v-checkbox>
                                         </v-flex>
                                     </v-layout>
                                     <!-- element filter end -->
+
+
+                                    <!-- evolution filter -->
+                                    <div class="headline">Evolution</div>
+                                    <v-layout row wrap>
+                                        <v-flex>
+                                            <v-checkbox label="Base" v-model="selected.evolution" value="1"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex>
+                                            <v-checkbox label="Evolved" v-model="selected.evolution" value="2"></v-checkbox>
+                                        </v-flex>
+                                        <v-flex>
+                                            <v-checkbox label="Extreme Evolution" v-model="selected.evolution" value="3"></v-checkbox>
+                                        </v-flex>
+                                    </v-layout>
+                                    <!-- evolution filter end -->
 
                                     <!-- latest char -->
                                     <v-switch label="Show last evolution only" v-model="showLastEvoOnly"></v-switch>
@@ -199,7 +215,7 @@
                                         <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
                                         <template slot="items" slot-scope="props">
                                             <td>
-                                                <b>{{ props.item.name }}</b>
+                                                <b>{{ props.item.name}}</b>
                                             </td>
                                             <td class="text-xs-right">{{ props.item.rarity }}</td>
                                             <td class="text-xs-right">{{ props.item.role }}</td>
@@ -235,7 +251,7 @@
     <script src="/node_modules/axios/dist/axios.min.js"></script>
     <script src="/node_modules/vue/dist/vue.min.js"></script>
     <script src="/node_modules/vuetify/dist/vuetify.min.js"></script>
-    <script src="/node_modules/vue-scrollto/vue-scrollto.min.js"></script>
+    <script src="/node_modules/vue-scrollto/vue-scrollto.js"></script>
     <script src="/node_modules/lodash/lodash.min.js"></script>
     <script src="./scripts/index.js"></script>
 </body>

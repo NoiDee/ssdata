@@ -31,7 +31,8 @@ let app = new Vue({
         selected: {
             rarity: [],
             role: [],
-            element: []
+            element: [],
+            evolution: []
         },
         dataTable: {
             search: '',
@@ -83,6 +84,7 @@ let app = new Vue({
                         app.filterLastEvo(i.isLastEvo) &&
                         app.filterData(data.rarity, i.rarity) &&
                         app.filterData(data.role, i.role) &&
+                        app.filterData(data.evolution, i.evolution) &&
                         app.filterData(data.element, i.element);
                 });
             }
@@ -154,46 +156,47 @@ let app = new Vue({
                 this.dataTable.isLoading = false;
             });
         },
-        appendPlayerNameEvo: function (name, id) {
-            let base = id.toString().substring(0, 1);
-            if (base == "3") {
-                name += " (EE)";
-            } else if (base == "2") {
-                name += " (E)";
+        getEvolutionSuffix: function (id) {
+            if (id == "3") {
+                return " (EE)"
+            } else if (id == "2") {
+                return " (E)"
             }
-            return name;
+            return "";
         },
         isLastEvolution: function (id, ids) {
             let isLast;
-            if (this.showLastEvoOnly) {
-                id = id.toString().substring(1);
-                isLast = !(ids.indexOf(id) >= 0);
-                if (isLast)
-                    ids.push(id);
-            }
+            id = id.toString().substring(1);
+            isLast = !(ids.indexOf(id) >= 0);
+            if (isLast)
+                ids.push(id);
             return isLast;
         },
         loadCharData: function (data) {
+            let playerIds = [];
             this.characters = [];
 
             for (var x = data.length - 1; x >= 0; x--) {
-                if (this.isPlayer(data[x].category)) {
-                    let ids = [];
+                let player = data[x];
+
+                if (this.isPlayer(player.category)) {
+                    let evoLevel = player.id.toString().substring(0, 1);
 
                     this.characters.push({
-                        name: this.appendPlayerNameEvo(data[x].name, data[x].id),
-                        rarity: data[x].rarity,
-                        role: data[x].role,
-                        element: data[x].element,
-                        isLastEvo: this.isLastEvolution(data[x].id, ids),
-                        max_pow: data[x].max_pow,
-                        max_tec: data[x].max_tec,
-                        max_vit: data[x].max_vit,
-                        max_spd: data[x].max_spd,
-                        min_pow: data[x].min_pow,
-                        min_tec: data[x].min_tec,
-                        min_vit: data[x].min_vit,
-                        min_spd: data[x].min_spd,
+                        name: player.name + this.getEvolutionSuffix(evoLevel),
+                        rarity: player.rarity,
+                        role: player.role,
+                        element: player.element,
+                        evolution: evoLevel,
+                        isLastEvo: this.isLastEvolution(player.id, playerIds),
+                        max_pow: player.max_pow,
+                        max_tec: player.max_tec,
+                        max_vit: player.max_vit,
+                        max_spd: player.max_spd,
+                        min_pow: player.min_pow,
+                        min_tec: player.min_tec,
+                        min_vit: player.min_vit,
+                        min_spd: player.min_spd,
                         cur_pow: 0,
                         cur_tec: 0,
                         cur_vit: 0,
