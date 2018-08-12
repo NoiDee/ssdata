@@ -216,3 +216,7 @@ let app = new Vue({
         }
     }
 });
+
+VueScrollTo.setDefaults({
+    offset: document.getElementsByClassName("v-toolbar")[0].offsetHeight * -1
+});
