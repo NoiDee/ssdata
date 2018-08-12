@@ -45,34 +45,42 @@ let app = new Vue({
                 },
                 {
                     text: 'Rarity',
+                    align: 'right',
                     value: 'rarity'
                 },
                 {
                     text: 'Role',
+                    align: 'right',
                     value: 'role'
                 },
                 {
                     text: 'Element',
+                    align: 'right',
                     value: 'element'
                 },
                 {
                     text: 'Power',
+                    align: 'right',
                     value: 'cur_pow'
                 },
                 {
                     text: 'Technique',
+                    align: 'right',
                     value: 'cur_tec'
                 },
                 {
                     text: 'Vitality',
+                    align: 'right',
                     value: 'cur_vit'
                 },
                 {
                     text: 'Speed',
+                    align: 'right',
                     value: 'cur_spd'
                 },
                 {
                     text: 'Total Stats',
+                    align: 'right',
                     value: 'cur_total'
                 }
             ],
