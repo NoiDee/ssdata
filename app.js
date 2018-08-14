@@ -36,6 +36,11 @@ app.get("/google201399ea6f80ae01.html", function (req, res) {
     res.sendFile(__dirname + "/pages/google201399ea6f80ae01.html", 200);
 });
 
+// sitemap
+app.get("/sitemap.xml", function (req, res) {
+    res.sendFile(__dirname + "/sitemap.xml", 200);
+});
+
 // lib
 app.get("/node_modules/*", function (req, res) {
     let path = __dirname + req.url;
