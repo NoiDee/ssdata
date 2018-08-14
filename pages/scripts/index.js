@@ -93,12 +93,12 @@ const app = new Vue({
                     const selected = app.selected;
                     const toggle = app.toggle;
                     return filter(item.name, search) &&
-                        app.filterToggle(toggle.lastEvo, item.isLastEvo) &&
-                        app.filterToggle(toggle.special, item.isSpecial) &&
-                        app.filterArray(selected.rarity, item.rarity) &&
-                        app.filterArray(selected.role, item.role) &&
-                        app.filterArray(selected.evolution, item.evolution) &&
-                        app.filterArray(selected.element, item.element);
+                        app.filterToggle(item.isLastEvo, toggle.lastEvo) &&
+                        app.filterToggle(item.isSpecial, toggle.special) &&
+                        app.filterArray(item.rarity, selected.rarity) &&
+                        app.filterArray(item.role, selected.role) &&
+                        app.filterArray(item.evolution, selected.evolution) &&
+                        app.filterArray(item.element, selected.element);
                 });
             }
         },
@@ -117,11 +117,11 @@ const app = new Vue({
         }
     },
     methods: {
-        filterToggle: function (toggle, val) {
+        filterToggle: function (val, toggle) {
             return (toggle && val) ||
                 (toggle == false);
         },
-        filterArray: function (arr, obj) {
+        filterArray: function (obj, arr) {
             return (!arr.length >= 1) ||
                 (arr.includes(obj.toString()));
         },
