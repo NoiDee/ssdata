@@ -41,6 +41,12 @@ app.get("/sitemap.xml", function (req, res) {
     res.sendFile(__dirname + "/sitemap.xml", 200);
 });
 
+
+// robots
+app.get("/robots.txt", function (req, res) {
+    res.sendFile(__dirname + "/robots.txt", 200);
+});
+
 // lib
 app.get("/node_modules/*", function (req, res) {
     let path = __dirname + req.url;
