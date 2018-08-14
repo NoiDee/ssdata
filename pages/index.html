@@ -29,27 +29,29 @@
 
         <template>
 
-            <v-toolbar app dark class="primary">
+            <v-toolbar dark class="primary">
                 <v-toolbar-title class="white--text">SSData</v-toolbar-title>
             </v-toolbar>
 
             <v-content>
 
-                <v-container fluid grid-list-xs grid-list-sm grid-list-md>
+                <v-container grid-list-lg fluid>
                     <v-layout row wrap>
 
-                        <v-flex xs12 sm6 md5>
+                        <v-flex xs12 sm5>
                             <v-card>
                                 <v-card-text>
 
                                     <!-- level  -->
                                     <v-layout row wrap>
-                                        <div class="headline">Character Level</div>
-                                        <v-flex xs10 sm10 md10>
+                                        <v-flex xs12>
+                                            <div class="headline">Character Level</div>
+                                        </v-flex>
+                                        <v-flex xs10>
                                             <v-slider label="Level" :max="stats.level.max" :min="stats.level.min" :step="stats.level.step" v-model="stats.level.value"
                                                 :color="stats.level.color"></v-slider>
                                         </v-flex>
-                                        <v-flex xs2 sm2 md2>
+                                        <v-flex xs2>
                                             <v-text-field v-model="stats.level.value" type="number"></v-text-field>
                                         </v-flex>
                                     </v-layout>
@@ -57,11 +59,13 @@
 
                                     <!-- spu  -->
                                     <v-layout row wrap>
-                                        <div class="headline">Superb Power-up</div>
-                                        <v-flex xs10 sm10 md10>
+                                        <v-flex xs12>
+                                            <div class="headline">Superb Power-up</div>
+                                        </v-flex>
+                                        <v-flex xs10>
                                             <v-slider label="Level" :max="stats.spu.max" v-model="stats.spu.value" :color="stats.spu.color"></v-slider>
                                         </v-flex>
-                                        <v-flex xs2 sm2 md2>
+                                        <v-flex xs2>
                                             <v-text-field v-model="stats.spu.value" type="number"></v-text-field>
                                         </v-flex>
                                     </v-layout>
@@ -69,11 +73,13 @@
 
                                     <!-- bonus stats -->
                                     <v-layout row wrap>
-                                        <div class="headline">+Power-up</div>
-                                        <v-flex xs10 sm10 md10>
+                                        <v-flex xs12>
+                                            <div class="headline">+Power-up</div>
+                                        </v-flex>
+                                        <v-flex xs10>
                                             <v-slider label="Level" :max="stats.bs.max" v-model="stats.bs.value" :color="stats.bs.color"></v-slider>
                                         </v-flex>
-                                        <v-flex xs2 sm2 md2>
+                                        <v-flex xs2>
                                             <v-text-field v-model="stats.bs.value" type="number"></v-text-field>
                                         </v-flex>
                                     </v-layout>
@@ -81,11 +87,13 @@
 
                                     <!-- apu -->
                                     <v-layout row wrap>
-                                        <div class="headline">Amplified Power-up</div>
-                                        <v-flex xs10 sm10 md10>
+                                        <v-flex xs12>
+                                            <div class="headline">Amplified Power-up</div>
+                                        </v-flex>
+                                        <v-flex xs10>
                                             <v-slider label="Level" :max="stats.apu.max" v-model="stats.apu.value" :color="stats.apu.color"></v-slider>
                                         </v-flex>
-                                        <v-flex xs2 sm2 md2>
+                                        <v-flex xs2>
                                             <v-text-field v-model="stats.apu.value" type="number"></v-text-field>
                                         </v-flex>
                                     </v-layout>
@@ -95,13 +103,15 @@
                             </v-card>
                         </v-flex>
 
-                        <v-flex xs12 sm6 md7>
+                        <v-flex xs12 sm7>
                             <v-card>
                                 <v-card-text>
 
                                     <!-- role filter -->
-                                    <div class="headline">Role</div>
                                     <v-layout row wrap>
+                                        <v-flex xs12>
+                                            <div class="headline">Role</div>
+                                        </v-flex>
                                         <v-flex>
                                             <v-checkbox label="Leader" color="red" v-model="selected.role" value="Leader"></v-checkbox>
                                         </v-flex>
@@ -124,8 +134,10 @@
                                     <!-- role filter end -->
 
                                     <!-- rarity filter -->
-                                    <div class="headline">Rarity</div>
                                     <v-layout row wrap>
+                                        <v-flex xs12>
+                                            <div class="headline">Rarity</div>
+                                        </v-flex>
                                         <v-flex>
                                             <v-checkbox label="1" v-model="selected.rarity" value="1"></v-checkbox>
                                         </v-flex>
@@ -148,8 +160,10 @@
                                     <!-- rarity filter end -->
 
                                     <!-- element filter -->
-                                    <div class="headline">Element</div>
                                     <v-layout row wrap>
+                                        <v-flex xs12>
+                                            <div class="headline">Element</div>
+                                        </v-flex>
                                         <v-flex>
                                             <v-checkbox label="Ardor" color="red" v-model="selected.element" value="Ardor"></v-checkbox>
                                         </v-flex>
@@ -170,8 +184,10 @@
 
 
                                     <!-- evolution filter -->
-                                    <div class="headline">Evolution</div>
                                     <v-layout row wrap>
+                                        <v-flex xs12>
+                                            <div class="headline">Evolution</div>
+                                        </v-flex>
                                         <v-flex>
                                             <v-checkbox label="Base" v-model="selected.evolution" value="1"></v-checkbox>
                                         </v-flex>
@@ -184,24 +200,34 @@
                                     </v-layout>
                                     <!-- evolution filter end -->
 
-                                    <!-- latest char -->
-                                    <v-switch label="Show last evolution only" v-model="showLastEvoOnly"></v-switch>
-                                    <!-- latest char end -->
+                                    <!-- toggles -->
+                                    <v-layout row wrap>
+                                        <v-flex xs12>
+                                            <div class="headline">Misc.</div>
+                                        </v-flex>
+                                        <v-flex>
+                                            <v-switch label="Show last evolution only" v-model="toggle.lastEvo"></v-switch>
+                                        </v-flex>
+                                        <v-flex>
+                                            <v-switch label="Show special characters only" v-model="toggle.special"></v-switch>
+                                        </v-flex>
+                                    </v-layout>
+                                    <!-- toggles end -->
 
                                 </v-card-text>
                             </v-card>
                         </v-flex>
 
-                        <v-flex xs12 md12>
+                        <v-flex xs12>
                             <v-card id="Search">
 
                                 <!-- search filter -->
                                 <v-card-title>
                                     <v-layout row wrap>
-                                        <v-flex xs12 md12>
+                                        <v-flex xs12>
                                             <div class="headline">Search</div>
                                         </v-flex>
-                                        <v-flex offset-xs1 offset-md1 xs11 md11>
+                                        <v-flex offset-xs1 xs11>
                                             <v-text-field append-icon="search" label="Enter text" single-line hide-details v-model="dataTable.search"></v-text-field>
                                         </v-flex>
                                     </v-layout>
@@ -236,7 +262,7 @@
                         </v-flex>
                     </v-layout>
 
-                    <v-btn v-scroll-to="'#Search'" fixed dark fab bottom right color="pink">
+                    <v-btn @click="$vuetify.goTo('#Search')" fixed dark fab bottom right color="pink">
                         <v-icon>search</v-icon>
                     </v-btn>
 
@@ -251,7 +277,6 @@
     <script src="/node_modules/axios/dist/axios.min.js"></script>
     <script src="/node_modules/vue/dist/vue.min.js"></script>
     <script src="/node_modules/vuetify/dist/vuetify.min.js"></script>
-    <script src="/node_modules/vue-scrollto/vue-scrollto.js"></script>
     <script src="/node_modules/lodash/lodash.min.js"></script>
     <script src="./scripts/index.js"></script>
 </body>

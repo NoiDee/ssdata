@@ -1,7 +1,6 @@
-let app = new Vue({
+const app = new Vue({
     el: "#app",
     data: {
-        showLastEvoOnly: true,
         characters: [],
         rarity: [],
         stats: {
@@ -27,6 +26,10 @@ let app = new Vue({
                 max: 30,
                 color: 'cyan'
             }
+        },
+        toggle: {
+            lastEvo: true,
+            special: false,
         },
         selected: {
             rarity: [],
@@ -86,14 +89,16 @@ let app = new Vue({
             ],
             customFilter: function (items, search, filter) {
                 search = _.lowerCase(search);
-                return items.filter(function (i) {
-                    var data = app.selected;
-                    return filter(i.name, search) &&
-                        app.filterLastEvo(i.isLastEvo) &&
-                        app.filterData(data.rarity, i.rarity) &&
-                        app.filterData(data.role, i.role) &&
-                        app.filterData(data.evolution, i.evolution) &&
-                        app.filterData(data.element, i.element);
+                return items.filter(function (item) {
+                    const selected = app.selected;
+                    const toggle = app.toggle;
+                    return filter(item.name, search) &&
+                        app.filterToggle(toggle.lastEvo, item.isLastEvo) &&
+                        app.filterToggle(toggle.special, item.isSpecial) &&
+                        app.filterArray(selected.rarity, item.rarity) &&
+                        app.filterArray(selected.role, item.role) &&
+                        app.filterArray(selected.evolution, item.evolution) &&
+                        app.filterArray(selected.element, item.element);
                 });
             }
         },
@@ -101,32 +106,29 @@ let app = new Vue({
     },
     created: function () {
         this.getCharData();
-        this.debouncedCalcCharsStats = _.debounce(this.calculateCharsStats, 500)
+        this.deb_getFinalStats = _.debounce(this.getFinalStats, 500)
     },
     watch: {
         stats: {
             handler: function () {
-                this.debouncedCalcCharsStats();
+                this.deb_getFinalStats();
             },
             deep: true
         }
     },
     methods: {
-        filterLastEvo: function (val) {
-            return (this.showLastEvoOnly && val) ||
-                (this.showLastEvoOnly == false);
+        filterToggle: function (toggle, val) {
+            return (toggle && val) ||
+                (toggle == false);
         },
-        filterData: function (arr, obj) {
-            if (arr.length >= 1) {
-                if (!arr.includes(obj.toString()))
-                    return false;
-            }
-            return true;
+        filterArray: function (arr, obj) {
+            return (!arr.length >= 1) ||
+                (arr.includes(obj.toString()));
         },
         isPlayer: function (character) {
             return (character === "Player") ? true : false;
         },
-        calculateStat: function (minStat, maxStat, rarity) {
+        getStat: function (minStat, maxStat, rarity) {
             let stLevel = this.stats.level.value / 10;
             let minStatRate = Math.pow(.176, (6 - (stLevel)) / 10);
             let stat = Math.round(minStat * minStatRate);
@@ -135,18 +137,20 @@ let app = new Vue({
             return totalFinal;
         },
         getApuBonus: function (rarity) {
-            return (rarity > 5) ? this.stats.apu.value : Math.floor(this.stats.apu.value * 1.2);
+            return (rarity > 5) ?
+                this.stats.apu.value :
+                Math.floor(this.stats.apu.value * 1.2);
         },
         getSpuBonus: function () {
             return 1 + this.stats.spu.value * 0.1;
         },
-        calculateCharsStats: function () {
+        getFinalStats: function () {
             this.dataTable.isLoading = true;
             this.characters.forEach(char => {
-                let cur_pow = this.calculateStat(char.min_pow, char.max_pow);
-                let cur_tec = this.calculateStat(char.min_tec, char.max_tec);
-                let cur_vit = this.calculateStat(char.min_vit, char.max_vit);
-                let cur_spd = this.calculateStat(char.min_spd, char.max_spd);
+                let cur_pow = this.getStat(char.min_pow, char.max_pow);
+                let cur_tec = this.getStat(char.min_tec, char.max_tec);
+                let cur_vit = this.getStat(char.min_vit, char.max_vit);
+                let cur_spd = this.getStat(char.min_spd, char.max_spd);
                 let cur_total = cur_pow + cur_tec + cur_vit + cur_spd;
 
                 char.cur_pow = cur_pow;
@@ -160,11 +164,11 @@ let app = new Vue({
         getCharData: function () {
             axios.get('/api/characters/').then(response => {
                 this.loadCharData(response.data);
-                this.calculateCharsStats();
+                this.getFinalStats();
                 this.dataTable.isLoading = false;
             });
         },
-        getEvolutionSuffix: function (id) {
+        getEvoSuffix: function (id) {
             if (id == "3") {
                 return " (EE)"
             } else if (id == "2") {
@@ -172,7 +176,7 @@ let app = new Vue({
             }
             return "";
         },
-        isLastEvolution: function (id, ids) {
+        isLastEvo: function (id, ids) {
             let isLast;
             id = id.toString().substring(1);
             isLast = !(ids.indexOf(id) >= 0);
@@ -191,12 +195,13 @@ let app = new Vue({
                     let evoLevel = player.id.toString().substring(0, 1);
 
                     this.characters.push({
-                        name: player.name + this.getEvolutionSuffix(evoLevel),
+                        name: player.name + this.getEvoSuffix(evoLevel),
                         rarity: player.rarity,
                         role: player.role,
                         element: player.element,
                         evolution: evoLevel,
-                        isLastEvo: this.isLastEvolution(player.id, playerIds),
+                        isLastEvo: this.isLastEvo(player.id, playerIds),
+                        isSpecial: player.is_special,
                         max_pow: player.max_pow,
                         max_tec: player.max_tec,
                         max_vit: player.max_vit,
@@ -215,8 +220,4 @@ let app = new Vue({
             };
         }
     }
-});
-
-VueScrollTo.setDefaults({
-    offset: document.getElementsByClassName("v-toolbar")[0].offsetHeight * -1
 });

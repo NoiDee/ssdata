@@ -25,7 +25,6 @@
     "lodash": "^4.17.10",
     "request": "^2.87.0",
     "vue": "^2.5.17",
-    "vue-scrollto": "^2.11.0",
     "vuetify": "^1.1.10"
   },
   "devDependencies": {
