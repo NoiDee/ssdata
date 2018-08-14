@@ -106,7 +106,7 @@ const app = new Vue({
     },
     created: function () {
         this.getCharData();
-        this.deb_getFinalStats = _.debounce(this.getFinalStats, 500)
+        this.deb_getFinalStats = _.debounce(this.getFinalStats, 500);
     },
     watch: {
         stats: {
@@ -169,12 +169,12 @@ const app = new Vue({
             });
         },
         getEvoSuffix: function (id) {
-            if (id == "3") {
-                return " (EE)"
-            } else if (id == "2") {
-                return " (E)"
-            }
-            return "";
+            if (id == "3")
+                return " (EE)";
+            else if (id == "2")
+                return " (E)";
+            else
+                return "";
         },
         isLastEvo: function (id, ids) {
             let isLast;
