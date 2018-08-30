@@ -42,49 +42,84 @@ const app = new Vue({
             isLoading: true,
             pageRows: [15, 30, 50],
             headers: [{
+                    text: 'Rank',
+                    align: 'left',
+                    sortable: false,
+                    value: 'total_stats'
+                }, {
                     text: 'Name',
                     align: 'left',
                     value: 'name'
-                },
-                {
+                }, {
                     text: 'Rarity',
                     align: 'right',
                     value: 'rarity'
-                },
-                {
+                }, {
                     text: 'Role',
                     align: 'right',
                     value: 'role'
-                },
-                {
+                }, {
                     text: 'Element',
                     align: 'right',
                     value: 'element'
-                },
-                {
+                }, {
                     text: 'Power',
                     align: 'right',
-                    value: 'cur_pow'
-                },
-                {
+                    value: 'pow'
+                }, {
                     text: 'Technique',
                     align: 'right',
-                    value: 'cur_tec'
-                },
-                {
+                    value: 'tec'
+                }, {
                     text: 'Vitality',
                     align: 'right',
-                    value: 'cur_vit'
-                },
-                {
+                    value: 'vit'
+                }, {
                     text: 'Speed',
                     align: 'right',
-                    value: 'cur_spd'
+                    value: 'spd'
                 },
+                // {
+                //     text: 'Dribble',
+                //     align: 'left',
+                //     value: 'drib'
+                // }, {
+                //     text: 'Steal',
+                //     align: 'left',
+                //     value: 'steal'
+                // }, {
+                //     text: 'Pass',
+                //     align: 'left',
+                //     value: 'pass'
+                // }, {
+                //     text: 'Action Speed',
+                //     align: 'left',
+                //     value: 'actSpd'
+                // }, {
+                //     text: 'Defense',
+                //     align: 'left',
+                //     value: 'def'
+                // }, {
+                //     text: 'Hit Points',
+                //     align: 'left',
+                //     value: 'hp'
+                // }, {
+                //     text: 'Critical',
+                //     align: 'left',
+                //     value: 'crit'
+                // }, {
+                //     text: 'Reflexes',
+                //     align: 'left',
+                //     value: 'refl'
+                // }, {
+                //     text: 'Recovery Rate',
+                //     align: 'left',
+                //     value: 'recRate'
+                // }, 
                 {
                     text: 'Total Stats',
                     align: 'right',
-                    value: 'cur_total'
+                    value: 'total_stats'
                 }
             ],
             customFilter: function (items, search, filter) {
@@ -106,12 +141,12 @@ const app = new Vue({
     },
     created: function () {
         this.getCharData();
-        this.deb_getFinalStats = _.debounce(this.getFinalStats, 500);
+        this.deb_getAllStats = _.debounce(this.getAllStats, 500);
     },
     watch: {
         stats: {
             handler: function () {
-                this.deb_getFinalStats();
+                this.deb_getAllStats();
             },
             deep: true
         }
@@ -144,27 +179,65 @@ const app = new Vue({
         getSpuBonus: function () {
             return 1 + this.stats.spu.value * 0.1;
         },
-        getFinalStats: function () {
+        getAllStats: function () {
             this.dataTable.isLoading = true;
             this.characters.forEach(char => {
-                let cur_pow = this.getStat(char.min_pow, char.max_pow);
-                let cur_tec = this.getStat(char.min_tec, char.max_tec);
-                let cur_vit = this.getStat(char.min_vit, char.max_vit);
-                let cur_spd = this.getStat(char.min_spd, char.max_spd);
-                let cur_total = cur_pow + cur_tec + cur_vit + cur_spd;
+                let pow = this.getStat(char.min_pow, char.max_pow);
+                let tec = this.getStat(char.min_tec, char.max_tec);
+                let vit = this.getStat(char.min_vit, char.max_vit);
+                let spd = this.getStat(char.min_spd, char.max_spd);
+                let total_stats = pow + tec + vit + spd;
 
-                char.cur_pow = cur_pow;
-                char.cur_tec = cur_tec;
-                char.cur_vit = cur_vit;
-                char.cur_spd = cur_spd;
-                char.cur_total = cur_total;
+                char.pow = pow;
+                char.tec = tec;
+                char.vit = vit;
+                char.spd = spd;
+
+                // char.drib = this.getDrible(char.pow, char.spd);
+                // char.steal = this.getSteal(char.tec, char.spd);
+                // char.pass = this.getPass(char.tec);
+                // char.actSpd = this.getActionSpeed(char.spd);
+                // char.def = this.getDefense(char.tec, char.vit);
+                // char.hp = this.getHitPoints(char.vit);
+                // char.crit = this.geCritical(char.pow, char.tec, char.spd);
+                // char.refl = this.getReflexes(char.tec, char.spd);
+                // char.recRate = this.getRecoveryRate(char.pow, char.vit);
+
+                char.total_stats = total_stats;
             });
             this.dataTable.isLoading = false;
+        },
+        getDrible: function (pow, spd) {
+            return Math.floor(5 + pow + (spd * 0.2));
+        },
+        getSteal: function (tec, spd) {
+            return Math.floor(5 + tec + (spd * 0.2));
+        },
+        getPass: function (tec) {
+            return Math.floor(3 + (tec * 0.8));
+        },
+        getActionSpeed: function (spd) {
+            return Math.floor(30 + (spd * 0.1));
+        },
+        getDefense: function (tec, vit) {
+            return Math.floor(30 + (vit * 0.2) + (tec * 0.8));
+        },
+        getHitPoints: function (vit) {
+            return Math.floor(20 + (this.stats.level.value * 0.8) + (vit * 1.8));
+        },
+        geCritical: function (pow, tec, spd) {
+            return Math.floor((0.05 + ((pow * 0.3) + (tec * 0.8) + (spd * 0.4) * 0.001)) * 1000);
+        },
+        getReflexes: function (tec, spd) {
+            return Math.floor(((5 + tec + (spd / 12)) / 4 / (this.stats.level.value + 30)) * 1000);
+        },
+        getRecoveryRate: function (pow, vit) {
+            return Math.round((0.03 + (pow + vit) * 0.002) * 100) / 100;
         },
         getCharData: function () {
             axios.get('/api/characters/').then(response => {
                 this.loadCharData(response.data);
-                this.getFinalStats();
+                this.getAllStats();
                 this.dataTable.isLoading = false;
             });
         },
@@ -210,11 +283,19 @@ const app = new Vue({
                         min_tec: player.min_tec,
                         min_vit: player.min_vit,
                         min_spd: player.min_spd,
-                        cur_pow: 0,
-                        cur_tec: 0,
-                        cur_vit: 0,
-                        cur_spd: 0,
-                        cur_total: 0
+                        pow: 0,
+                        tec: 0,
+                        vit: 0,
+                        spd: 0,
+                        // drib: 0,
+                        // steal: 0,
+                        // actSpd: 0,
+                        // def: 0,
+                        // hp: 0,
+                        // crit: 0,
+                        // refl: 0,
+                        // recRate: 0,
+                        total_stats: 0
                     });
                 }
             };

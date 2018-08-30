@@ -241,17 +241,29 @@
                                         <v-progress-linear slot="progress" color="blue" indeterminate></v-progress-linear>
                                         <template slot="items" slot-scope="props">
                                             <td>
+                                                <b>{{ props.index + 1}}</b>
+                                            </td>
+                                            <td>
                                                 <b>{{ props.item.name}}</b>
                                             </td>
                                             <td class="text-xs-right">{{ props.item.rarity }}</td>
                                             <td class="text-xs-right">{{ props.item.role }}</td>
                                             <td class="text-xs-right">{{ props.item.element }}</td>
-                                            <td class="text-xs-right">{{ props.item.cur_pow }}</td>
-                                            <td class="text-xs-right">{{ props.item.cur_tec }}</td>
-                                            <td class="text-xs-right">{{ props.item.cur_vit }}</td>
-                                            <td class="text-xs-right">{{ props.item.cur_spd }}</td>
+                                            <td class="text-xs-right">{{ props.item.pow }}</td>
+                                            <td class="text-xs-right">{{ props.item.tec }}</td>
+                                            <td class="text-xs-right">{{ props.item.vit }}</td>
+                                            <td class="text-xs-right">{{ props.item.spd }}</td>
+                                            <!-- <td class="text-xs-right">{{ props.item.drib }}</td>
+                                            <td class="text-xs-right">{{ props.item.steal }}</td>
+                                            <td class="text-xs-right">{{ props.item.pass }}</td>
+                                            <td class="text-xs-right">{{ props.item.actSpd }}</td>
+                                            <td class="text-xs-right">{{ props.item.def }}</td>
+                                            <td class="text-xs-right">{{ props.item.hp }}</td>
+                                            <td class="text-xs-right">{{ props.item.crit }}</td>
+                                            <td class="text-xs-right">{{ props.item.refl }}</td>
+                                            <td class="text-xs-right">{{ props.item.recRate }}</td> -->
                                             <td class="text-xs-right">
-                                                <b>{{ props.item.cur_total}}</b>
+                                                <b>{{ props.item.total_stats}}</b>
                                             </td>
                                         </template>
                                     </v-data-table>

@@ -23,11 +23,11 @@
     "cors": "^2.8.4",
     "express": "^4.16.3",
     "lodash": "^4.17.10",
-    "request": "^2.87.0",
+    "request": "^2.88.0",
     "vue": "^2.5.17",
-    "vuetify": "^1.1.10"
+    "vuetify": "^1.2.1"
   },
   "devDependencies": {
-    "webpack": "^4.16.5"
+    "webpack": "^4.17.1"
   }
 }
