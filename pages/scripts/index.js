@@ -172,7 +172,7 @@ const app = new Vue({
             return totalFinal;
         },
         getApuBonus: function (rarity) {
-            return (rarity > 5) ?
+            return (rarity < 6) ?
                 this.stats.apu.value :
                 Math.floor(this.stats.apu.value * 1.2);
         },
@@ -182,10 +182,10 @@ const app = new Vue({
         getAllStats: function () {
             this.dataTable.isLoading = true;
             this.characters.forEach(char => {
-                let pow = this.getStat(char.min_pow, char.max_pow);
-                let tec = this.getStat(char.min_tec, char.max_tec);
-                let vit = this.getStat(char.min_vit, char.max_vit);
-                let spd = this.getStat(char.min_spd, char.max_spd);
+                let pow = this.getStat(char.min_pow, char.max_pow, char.rarity);
+                let tec = this.getStat(char.min_tec, char.max_tec, char.rarity);
+                let vit = this.getStat(char.min_vit, char.max_vit, char.rarity);
+                let spd = this.getStat(char.min_spd, char.max_spd, char.rarity);
                 let total_stats = pow + tec + vit + spd;
 
                 char.pow = pow;
